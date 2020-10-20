@@ -4,9 +4,12 @@ String uid = '';
 String path = '';
 
 String empid = '563';
+bool isAuto = true;
+int syncMinutes = 1;
+var isolate;
 
 
-  String  GetEmployees = 'http://smemobapi.azurewebsites.net/api/Employee/GetEmployees';
+String  GetEmployees = 'http://smemobapi.azurewebsites.net/api/Employee/GetEmployees';
   String  GetEmpList4User = 'http://smemobapi.azurewebsites.net/api/Employee/GetEmpList4User';
   String  GetEmployeeAbsenceAssignment = 'http://smemobapi.azurewebsites.net/api/Employee/GetEmployeeAbsenceTypeAssignment';//2 //
   String  GetCalByEmp = 'http://smemobapi.azurewebsites.net/api/Employee/GetCalByEmp';
@@ -21,7 +24,7 @@ String empid = '563';
   String  GetNextScheduledAbsence4Dashboard = 'http://smemobapi.azurewebsites.net/api/Employee/GetNextScheduledAbsence4Dashboard?UserId=';
   String  GetVacationBalance4Dashboard  = "http://smemobapi.azurewebsites.net//api/vacation/GetVacationBalance4Dashboard?empidd=";
   String  GetGetNotificationCount = 'http://smemobapi.azurewebsites.net//api/Employee/GetNotificationCount?UserId=';
-  String  GetTimeSheetParameters = 'http://smemobapi.azurewebsites.net/api/timesheet/GetTimeSheetParameters';
+  String  GetTimeSheetParameters = 'http://smemobapi.azurewebsites.net/api/TimeSheetTransaction/GetTimeSheetParameters';
   // timesheet dropdowns   1
   String  GetPrjD1 = 'http://smemobapi.azurewebsites.net/api/Project/GetPrjDD1?EmpId=';
   String  GetPrjD1WithoutAsgn = 'http://smemobapi.azurewebsites.net/api/Project/GetPrjD1NonAssignment';

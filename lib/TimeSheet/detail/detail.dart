@@ -1,23 +1,7 @@
-import 'package:google_fonts/google_fonts.dart';
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-
-import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:http/http.dart';
-import 'package:intl/intl.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sm_service/AppScreens/Searchable_List/seacrhableListview.dart';
-import 'package:sm_service/AppScreens/TimeLine/TimeLineScreen.dart';
-import 'package:sm_service/App_Initialization/App_classes/BottomBar.dart';
-import 'package:sm_service/App_Initialization/App_classes/DropDowns.dart';
-import 'package:sm_service/App_Initialization/App_classes/PopularFilterListData.dart';
-import 'package:sm_service/App_Initialization/App_classes/Tab_Icons.dart';
 import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_vatiables.dart';
 import 'package:sm_service/DataStructures/DropDown_Master.dart';
@@ -32,6 +16,7 @@ import 'dart:convert' as JSON;
 
 import 'package:sm_service/Database_Files/Local_DB/Absence_Transaction.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/HourType/Hour_Type.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/PremiumType/PremiumType_db.dart';
 import 'package:sm_service/Database_Files/Server_Files/Eb_prllevtrx_status.dart';
 import 'package:sm_service/Database_Files/Updating_All_DB.dart';
 
@@ -74,39 +59,63 @@ List <Widget> WidTile =[];
 List <TextEditingController> comment_txt_xtrl=[];
 List <TextEditingController> value_txt_xtrl=[];
 int selectedindex;
+  Premium_type_db premium_type_db = Premium_type_db.instance;
+  HourTypes hourTypes = HourTypes.instance;
 
 
   @override
   void initState() {
 
-if(widget.sc == Screen_type.Premiums_Detail){
-
-
-  dropdown.add(Premium_type());
-  dropdown.add(Premium_type());
-  dropdown.add(Premium_type());
-  dropdown.add(Premium_type());
-
-}
-else{
-
-
-
-
-
-
-  dropdown.add(Hourly_type());
-  dropdown.add(Hourly_type());
-  dropdown.add(Hourly_type());
-
-}
-
-inittextfields();
+// if(widget.sc == Screen_type.Premiums_Detail){
+//
+//
+//   dropdown.add(Premium_type());
+//   dropdown.add(Premium_type());
+//   dropdown.add(Premium_type());
+//   dropdown.add(Premium_type());
+//
+// }
+// else{
+//
+//
+//
+//
+//
+//
+//   dropdown.add(Hourly_type());
+//   dropdown.add(Hourly_type());
+//   dropdown.add(Hourly_type());
+//
+// }
+//
+// inittextfields();
 
 
   }
 
 
+  addtiles() async {
+    dropdown.clear();
+    if(widget.sc == Screen_type.Premiums_Detail){
+
+      List ls = await premium_type_db.queryAllRows();
+
+      ls.forEach((element) {
+        dropdown.add(Premium_type(element['${Premium_type_db.premtype}'], "","","",""));
+      });
+
+    }
+    else{
+      List ls = await hourTypes.queryAllRows();
+
+      ls.forEach((element) {
+        dropdown.add(Hourly_type(element[HourTypes.hourtypecode],"","","",""));
+      });
+    }
+    inittextfields();
+
+    return 2;
+  }
 
 
   var Comentr_Controler = TextEditingController();
@@ -129,77 +138,92 @@ inittextfields(){
 
 
 
-
-
-
-
     return Scaffold(
       body: Column(
         children: <Widget>[
           Stack(
             children: <Widget>[
               TopBar(widget.th, widget.sc),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: (){
-                        Navigator.pop(context,true);
-                      },
-                      icon: Icon(Icons.keyboard_backspace,color: Colors.white,size: 30,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    icon: Icon(
+                      Icons.keyboard_backspace,
+                      color: Colors.white,
+                      size: 30,
                     ),
-
-
-
-//
-//                    Row(
-//                      children: <Widget>[
-//                        IconButton(
-//                          icon: Icon(Icons.settings ,color: Colors.white,) ,
-//                          onPressed: (){
-//                            showDialog(context: context,builder: (context) => Detail_Form(Screen_type.Hours_Detail,widget.th),)  ;
-//
-//                          },
-//                        ),
-//
-//
-//                        Screen_type.Premiums_Detail ==widget.sc ?   IconButton(
-//                          onPressed: (){
-//                            showDialog(context: context,builder: (context) => Detail_Form(Screen_type.Premiums_Detail,widget.th),)  ;
-//                          },
-//                          icon: Icon(Icons.timer,color: Colors.white),
-//
-//
-//                        ):Container(),
-//
-//
-//                      ],
-//                    ),
-
-
-
-    ],
-                ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Screen_type.Hours_Detail == widget.sc
+                          ? IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => Detail_Form(
+                                Screen_type.Premiums_Detail,
+                                widget.th),
+                          );
+                        },
+                        icon: Icon(Icons.timer,
+                            color: Colors.white),
+                      )
+                          : Container(),
+                    ],
+                  ),
+                ],
               )
             ],
           ),
 
-          Expanded(
-            child: ListView.builder(
-              itemCount: dropdown.length,
-itemBuilder: (context, index) {
-  return ListTile_Detail(index ,dropdown[index].DropDownValue.toString() ,this );
+          FutureBuilder(
+            future: addtiles(),
 
+            builder: (context, snapshot) {
+         if(snapshot.hasData)
 
+              return Expanded(
+                child: ListView.builder(
 
-},
+                  itemCount: dropdown.length,
+                  itemBuilder: (context, index) {
+                    return ListTile_Detail(
+                        index, dropdown[index].DropDownValue.toString(), this);
+                  },
 
-            ),
+                ),
 
+              );
+
+            return Container();
+
+            }
           ),
 
+          Container(
+            height: MediaQuery.of(context).size.height*0.1,
+            child: FlatButton(
+                onPressed: (){
+              setState(() {
+
+                if(widget.sc == Screen_type.Premiums_Detail){
+                  dropdown.add(Premium_type(  'Type',"","","",""));
+                }
+                else{
+                  dropdown.add(Hourly_type('Type',"","","",""));
+                }
+                inittextfields();
+
+              });
+
+            },
+                child:Icon(Icons.add)),
+
+          )
         ],
       ),
     );
@@ -288,7 +312,7 @@ class ListTile_Detail extends StatelessWidget {
                   child: TextField(
                     controller:      parent.value_txt_xtrl[num],
                     decoration: InputDecoration(
-                        hintText: "Hour Value"
+                        hintText: "Value"
                     ),
                     keyboardType: TextInputType.number,
                   ),
@@ -296,25 +320,20 @@ class ListTile_Detail extends StatelessWidget {
                 ),
 
              Container(
-                    child: FlatButton(
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(0),
+                  elevation: 20,
                   onPressed: (){
 
                     parent. setState(() {
                       parent.dropdown.removeAt(num);
                     });
                   },
-                  child: Column(
-                    children: <Widget>[
-
-                      Icon(
-                        Icons.delete,
-                        color: Colors.grey,
-                        semanticLabel: 'Delete',
-                        size: 25,
-                      ),
-                      Text("Delete")
-
-                    ],
+                  child:  Icon(
+                    Icons.delete,
+                    color: Colors.grey,
+                    semanticLabel: '',
+                    size: 25,
                   ),
                 ))
               ],

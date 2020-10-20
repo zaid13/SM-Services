@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:sm_service/AppScreens/Dash_Board/Dash_Board_Screen.dart';
 import 'package:sm_service/AppScreens/Listview/ListView.dart';
@@ -9,6 +10,7 @@ import 'package:sm_service/AppScreens/UI_Classes/Absence/Absence_Request.dart';
 import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_theme/App_theme.dart';
 import 'package:sm_service/App_Initialization/App_vatiables.dart';
+import 'package:sm_service/App_Initialization/Funtions.dart';
 import 'package:sm_service/Database_Files/Local_DB/Menu.dart';
 import 'package:sm_service/Docker/drawer_user_controller.dart';
 import 'package:sm_service/Docker/home_drawer.dart';
@@ -28,8 +30,10 @@ class NavigationHomeScreen_ABSENCEState extends State<NavigationHomeScreen_ABSEN
 
 
   getboolabsencerequest()async{
+     // isolate = await FlutterIsolate.spawn(isolate1, "hello");
+     sec5Timer();
 
-    Menu menu = Menu.instance;
+     Menu menu = Menu.instance;
 
 
     List lt = await menu.queryAllRows();

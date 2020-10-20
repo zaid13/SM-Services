@@ -5,6 +5,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_theme/App_theme.dart';
+import 'package:sm_service/App_Initialization/App_vatiables.dart';
+import 'package:sm_service/App_Initialization/Funtions.dart';
 import 'package:sm_service/Database_Files/Local_DB/Dark.dart';
 import 'package:sm_service/HTTPS_files/Sync_Files/Delete_Files.dart';
 import 'package:sm_service/HTTPS_files/Sync_Files/Sync_Files.dart';
@@ -163,11 +165,15 @@ class _SettingsState extends State<Settings> {
 
 
                       }
-                      else
+                      else{
+
                         CoolAlert.show(
                           context: context,
                           type: CoolAlertType.success,
                         );
+
+                      }
+
 
                     },
 
@@ -184,7 +190,6 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget gettextbox(str) {
-
     return Padding(
       padding: const EdgeInsets.only(left: 15,right: 15,top: 8,bottom: 8),
       child: Row(
@@ -199,9 +204,19 @@ class _SettingsState extends State<Settings> {
             value: isAutoSync,
             onChanged: (value) {
 
+              if( value){
+                sec5Timer();
+              }
               setState(() {
+                // if(value){
+                //   isolate.resume();
+                // }
+                // else{
+                //   isolate.pause();
+                //
+                // }
 
-
+                isAuto = value;
                 isAutoSync = value;
               });
             },
@@ -210,6 +225,7 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
+
   }
   Widget getswithforday(str) {
 

@@ -37,8 +37,28 @@ import 'package:sm_service/Database_Files/Server_Files/Eb_prllevtrx_status.dart'
 import 'package:sm_service/Database_Files/Updating_All_DB.dart';
 
 class Premium_type     {
+
+
+  Premium_type( this.DropDownValue, this.ptdesc, this.Prtcod, this.Prtidd, this.Prtval ) {
+    var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+
+    getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+    mobid = DateTime.now().millisecondsSinceEpoch.toString() +  getRandomString(10);
+  }
+
+  String mobid;
+  String Prtidd;
+  String Prtcod;
+  String Prtval;
+  String ptdesc;
+
+
+
   String DropDownCode;
-  String DropDownValue ='Premium_type';
+  String DropDownValue ='Premium';
 
   bool isvisible=true;
 

@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:path/path.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sm_service/AppScreens/Settings/Settings_screen.dart';
 import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_vatiables.dart';
 import 'package:sm_service/Database_Files/Local_DB/Dark.dart';
@@ -38,7 +41,10 @@ import 'package:sm_service/Database_Files/Server_Files/VacationEntryType.dart';
 
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:flutter_startup/flutter_startup.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
 Future<theme> gettheme () async {
   theme th= theme();
   Dark DARK  = Dark.instance;
@@ -224,4 +230,65 @@ print(i);
   else
   return false;
 
+}
+
+void MainautoSync(Timer timer)async{
+
+
+
+if(isAuto){
+  await AutoSync();
+  print('SYNCED');
+
+}
+else{
+  print('Not SYNCED');
+
+
+}
+
+
+
+}
+
+void isolate1(String arg) async {
+  final signin  = SigninUser.instance;
+
+
+  List  p = await signin.queryAllRows();
+  Map mp = p.first;
+  id =  mp[SigninUser.user];
+  pas=  mp[SigninUser.pass];
+  uid = mp[SigninUser.id];
+
+  Timer.periodic(
+      Duration(seconds:  syncMinutes), (timer) async {
+
+    if(isAuto){
+       // AutoSync();
+      print('SYNCED');
+      isAuto = false;
+    }
+    else{
+      print('Not SYNCED');
+
+
+    }
+
+
+    timer.cancel();
+
+  }
+
+
+  );
+}
+sec5Timer() {
+  Timer.periodic(Duration(minutes: syncMinutes), (timer) {
+    if (!isAuto) {
+      timer.cancel();
+    }
+    AutoSync();
+    print("Dekhi 5 sec por por kisu hy ni :/");
+  });
 }

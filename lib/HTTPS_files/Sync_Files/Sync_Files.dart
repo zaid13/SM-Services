@@ -55,7 +55,7 @@ syncEvent() async {
 
     await init_insert_independent_dropDown_1();
     await init_insert_independent_dropDown_2();
-    await init_insert_Premium_type(1);
+    await init_insert_Premium_type();
     await init_insert_Hour_type();
 
 //    await init_current_user();

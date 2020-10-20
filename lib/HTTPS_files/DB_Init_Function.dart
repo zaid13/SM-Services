@@ -855,15 +855,15 @@ init_insert_independent_dropDown_2() async {
 }
 
 
-init_insert_Premium_type(int i ) async {
+init_insert_Premium_type() async {
 
 
   insering_allDB dbvar = insering_allDB();
 
-  String url = 'http://smemobapi.azurewebsites.net/api/PremiumType/GetPrmTypes?Type='+i.toString();
+  String url = 'http://smemobapi.azurewebsites.net/api/PremiumType/GetAllPrmTypes';
 
 
-
+print(url);
   List ls =   await getApi_without_parameters(  id,pas , url) ;
 
   ls.forEach((element) {
@@ -904,6 +904,7 @@ init_insert_Hour_type( ) async {
 
 
   List ls =   await getApi_without_parameters(  id,pas , url) ;
+print(url);
 
   ls.forEach((element) {
 
