@@ -88,8 +88,9 @@ class DropDown_2{
 
 
 
-List ls =await  empabsAssignment.queryonlyRows(
-    body.dropDowns.dropDown_1 . recidemploymaster, EmpAbsenceAssignments.empidd);
+// List ls =await  empabsAssignment.queryonlyRows(
+//     body.dropDowns.dropDown_1 . recidemploymaster, EmpAbsenceAssignments.empidd);
+List ls  =  await  empabsAssignment.queryAllRows();
 
 
   List <Widget> widlist = [];

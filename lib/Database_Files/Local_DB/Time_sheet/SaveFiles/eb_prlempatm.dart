@@ -5,36 +5,54 @@
 
 
 
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sm_service/App_Initialization/Funtions.dart';
 
-class Premium_type_db {
-
+class eb_prlempatm {
 //  static final _databaseName = "MyDatabase.db";
 
-
-  static final table = 'Premium_type_db';
+  static final table = 'eb_prlempatm';
 
   static final recidd= 'recidd';
-  static final premtype= 'premtype';
-  static final premtypedescription= 'premtypedescription';
-  static final uopidd= 'uopidd';
-  static final uopcod= 'uopcod';
-  static final type= 'type';
+  static final prmidd= 'prmidd';
+  static final prmtrx= 'prmtrx';
+  static final subtrx= 'subtrx';
+  static final empidd= 'empidd';
+  static final empcod= 'empcod';
+  static final posidd= 'posidd';
+  static final poscod= 'poscod';
+  static final prjidd= 'DependantDD2ID';
+  static final prjcod= 'DependantDD2Code';
+  static final attdat= 'attdat';
+  static final attseq= 'attseq';
+  static final attftm= 'attftm';
+  static final attetm= 'attetm';
+  static final attcmt= 'attcmt';
+  static final calidd= 'calidd';
+  static final calcod= 'calcod';
+  static final atttyp= 'atttyp';
+  static final atttcd= 'atttcd';
+  static final shfidd= 'shfidd';
+  static final shftcod= 'shftcod';
+  static final shtval= 'shtval';
+  static final isdeleted= 'isdeleted';
+  static final subprjidd= 'DependantDD3ID';
+  static final subprjcod= 'DependantDD3Code';
   static final cmpidd= 'cmpidd';
   static final Company= 'Company';
-  static final typecod= 'typecod';
+  static final prjsbdtcod= 'DependantDD4ID';
+  static final prjsbdtidd= 'DependantDD4Code';
+  static final prjtypidd= 'DependantDD1ID';
+  static final prjtypcod= 'DependantDD1Code';
+  static final indepndtcod= 'IndependentDD1Code';
+  static final indepndtcod2= 'IndependentDD2Code';
+  static final indepndtidd2= 'IndependentDD2Id';
+  static final indepndtidd= 'IndependentDD1Id';
+  static final mobid= 'mobid';
 
-
-
-  Premium_type_db._privateConstructor();
-  static final Premium_type_db instance =
-  Premium_type_db._privateConstructor();
+  eb_prlempatm._privateConstructor();
+  static final eb_prlempatm instance =
+  eb_prlempatm._privateConstructor();
 
   // only have a single app-wide reference to the database
   static Database _database;
@@ -53,15 +71,45 @@ class Premium_type_db {
     await db.execute('''
           CREATE TABLE  $table(
          
-$recidd int,
-$premtype nvarchar,
-$premtypedescription nvarchar,
-$uopidd int,
-$uopcod varchar,
-$type int,
-$cmpidd int,
+$recidd varchar,
+$prmidd varchar,
+$prmtrx nvarchar,
+$subtrx nvarchar,
+$empidd varchar,
+$empcod nvarchar,
+$posidd varchar,
+$poscod nvarchar,
+$prjidd varchar,
+$prjcod nvarchar,
+$attdat varchar,
+$attseq varchar,
+$attftm varchar,
+$attetm varchar,
+$attcmt nvarchar,
+$calidd varchar,
+$calcod nvarchar,
+$atttyp varchar,
+$atttcd nvarchar,
+$shfidd varchar,
+$shftcod nvarchar,
+$shtval varchar,
+$isdeleted varchar,
+$subprjidd varchar,
+$subprjcod nvarchar,
+$cmpidd varchar,
 $Company nvarchar,
-$typecod varchar
+$prjsbdtcod nvarchar,
+$prjsbdtidd varchar,
+$prjtypidd varchar,
+$prjtypcod nvarchar,
+$indepndtcod nvarchar,
+$indepndtcod2 nvarchar,
+$indepndtidd2 varchar,
+$indepndtidd varchar,
+$mobid varchar
+
+
+
 
 
   )
@@ -99,7 +147,18 @@ $typecod varchar
 
     return res;
   }
+   deleteonly(t, String str) async {
 
+    Database db = await instance.database;
+
+
+
+     db.rawQuery("DELETE FROM ${table} WHERE ${str} =   '${t}' ");
+return 1;
+
+
+
+  }
   // All of the methods (insert, query, update, delete) can also be done using
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int> queryRowCount() async {

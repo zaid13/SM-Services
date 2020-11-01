@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:path/path.dart';
 import 'package:flutter_login/flutter_login.dart';
@@ -19,6 +20,9 @@ import 'package:sm_service/Database_Files/Local_DB/Time_sheet/HourType/Hour_Type
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Independent_Dropdowns/Independent_dropDown_1.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Independent_Dropdowns/Independent_dropDown_2.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Independent_Dropdowns/Position.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Submenu_localDB/Timesheet_Hour.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Submenu_localDB/Timesheet_Hour_Premium.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Submenu_localDB/Timesheet_Premium.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/TimeSheetParameter.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sm_service/Database_Files/Local_DB/Absence_Transaction.dart';
@@ -45,6 +49,14 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_startup/flutter_startup.dart';
 import 'package:flutter_isolate/flutter_isolate.dart';
+
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlattenttrx_Status.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatd_prt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatd_hrt_prt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatm.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatd_hrt.dart';
+
 Future<theme> gettheme () async {
   theme th= theme();
   Dark DARK  = Dark.instance;
@@ -135,7 +147,26 @@ Future onCreate(Database db, int version) async {
   await Premium_type_db.instance.onCreate(db, version);
   await HourTypes.instance.onCreate(db, version);
 
+  await Timesheet_Hour_Premium.instance.onCreate(db, version);
+  await Timesheet_Premium.instance.onCreate(db, version);
+  await Timesheet_Hour.instance.onCreate(db, version);
 
+
+
+ await  eb_prlempatt.instance.onCreate(db, version);
+  await eb_prlempatm.instance.onCreate(db, version);
+ await  eb_prlattenttrx_Status.instance.onCreate(db, version);
+  await eb_prlempatd_hrt.instance.onCreate(db, version);
+ await  eb_prlempatd_prt.instance.onCreate(db, version);
+ await  eb_prlempatd_hrt_prt.instance.onCreate(db, version);
+  // await eb_prlattenttrx_Status.instance.onCreate(db, version);
+  // await Timesheet_Hour.instance.onCreate(db, version);
+  // await Timesheet_Hour.instance.onCreate(db, version);
+  // await Timesheet_Hour.instance.onCreate(db, version);
+  // await Timesheet_Hour.instance.onCreate(db, version);
+  // await Timesheet_Hour.instance.onCreate(db, version);
+  Directory d =await getApplicationDocumentsDirectory();
+print(d.path);
 
 
 
@@ -222,67 +253,19 @@ SMTP_Email(String mess) async {
 
 bool istrue(String  i ){
 
-print(i);
+  print(i);
 
   if(i.compareTo('True')==0)
     return true;
 
   else
-  return false;
-
-}
-
-void MainautoSync(Timer timer)async{
-
-
-
-if(isAuto){
-  await AutoSync();
-  print('SYNCED');
-
-}
-else{
-  print('Not SYNCED');
-
+    return false;
 
 }
 
 
 
-}
 
-void isolate1(String arg) async {
-  final signin  = SigninUser.instance;
-
-
-  List  p = await signin.queryAllRows();
-  Map mp = p.first;
-  id =  mp[SigninUser.user];
-  pas=  mp[SigninUser.pass];
-  uid = mp[SigninUser.id];
-
-  Timer.periodic(
-      Duration(seconds:  syncMinutes), (timer) async {
-
-    if(isAuto){
-       // AutoSync();
-      print('SYNCED');
-      isAuto = false;
-    }
-    else{
-      print('Not SYNCED');
-
-
-    }
-
-
-    timer.cancel();
-
-  }
-
-
-  );
-}
 sec5Timer() {
   Timer.periodic(Duration(minutes: syncMinutes), (timer) {
     if (!isAuto) {
@@ -291,4 +274,34 @@ sec5Timer() {
     AutoSync();
     print("Dekhi 5 sec por por kisu hy ni :/");
   });
+}
+
+
+
+
+String  getID() {
+  var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+
+  getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+  return  DateTime.now().millisecondsSinceEpoch.toString() +  getRandomString(10);
+}
+
+
+
+returnNUlliFDefault(String currva, String defval){
+  if(currva==null)
+    return currva;
+print(currva);
+print(defval);
+ if( currva.compareTo(defval)==0){
+   return null;
+
+
+ }
+ return currva;
+
+
 }

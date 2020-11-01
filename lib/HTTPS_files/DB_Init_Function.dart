@@ -866,6 +866,11 @@ init_insert_Premium_type() async {
 print(url);
   List ls =   await getApi_without_parameters(  id,pas , url) ;
 
+  ls.forEach((key) {
+
+    print(key);
+
+  });
   ls.forEach((element) {
 
     dbvar  . insering_premium_type_db(
@@ -881,14 +886,6 @@ print(url);
       typecod: element['${Premium_type_db.typecod}'].toString(),
 
     );
-
-
-
-
-
-
-
-
 
   });
 }

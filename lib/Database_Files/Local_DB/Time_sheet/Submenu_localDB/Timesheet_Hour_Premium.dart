@@ -5,36 +5,34 @@
 
 
 
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sm_service/App_Initialization/Funtions.dart';
 
-class Premium_type_db {
-
+class Timesheet_Hour_Premium {
 //  static final _databaseName = "MyDatabase.db";
 
 
-  static final table = 'Premium_type_db';
+  static final table = 'Timesheet_Hour_Premium';
+
 
   static final recidd= 'recidd';
-  static final premtype= 'premtype';
-  static final premtypedescription= 'premtypedescription';
-  static final uopidd= 'uopidd';
-  static final uopcod= 'uopcod';
-  static final type= 'type';
+  static final mrecidd= 'mrecidd';
+  static final hrtdidd= 'hrtdidd';
+  static final prtidd= 'prtidd';
+    static final prtcod= 'prtcod';
+  static final prtval= 'prtval';
+  static final isdeleted= 'isdeleted';
+  static final ptdesc= 'ptdesc';
   static final cmpidd= 'cmpidd';
   static final Company= 'Company';
-  static final typecod= 'typecod';
 
 
+  static final mobid= 'mobid';
 
-  Premium_type_db._privateConstructor();
-  static final Premium_type_db instance =
-  Premium_type_db._privateConstructor();
+
+  Timesheet_Hour_Premium._privateConstructor();
+  static final Timesheet_Hour_Premium instance =
+  Timesheet_Hour_Premium._privateConstructor();
 
   // only have a single app-wide reference to the database
   static Database _database;
@@ -53,15 +51,21 @@ class Premium_type_db {
     await db.execute('''
           CREATE TABLE  $table(
          
-$recidd int,
-$premtype nvarchar,
-$premtypedescription nvarchar,
-$uopidd int,
-$uopcod varchar,
-$type int,
-$cmpidd int,
+
+$recidd nvarchar,
+$mrecidd nvarchar,
+$hrtdidd nvarchar,
+$prtidd nvarchar,
+$prtcod nvarchar,
+$prtval nvarchar,
+$isdeleted nvarchar,
+$ptdesc nvarchar,
+$cmpidd nvarchar,
 $Company nvarchar,
-$typecod varchar
+$mobid nvarchar
+
+
+
 
 
   )
@@ -92,12 +96,25 @@ $typecod varchar
 
     Database db = await instance.database;
 
+    t+="-";
 
-    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} = '${t}' ");
+    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} LIKE  '${t}%' ");
 
 
 
     return res;
+  }
+ deleteonly(t, String str) async {
+
+    Database db = await instance.database;
+    t+="-";
+
+
+   await db.rawQuery("DELETE FROM ${table} WHERE ${str} LIKE  '${t}%' ");
+
+
+
+
   }
 
   // All of the methods (insert, query, update, delete) can also be done using
@@ -118,8 +135,8 @@ $typecod varchar
   // Deletes the row specified by the id. The number of affected rows is
   // returned. This should be 1 as long as the row exists.
   Future<int> delete(int id) async {
-//    Database db = await instance.database;
-//    return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
+   // Database db = await instance.database;
+   // return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 
   Future<int> deleteall() async {

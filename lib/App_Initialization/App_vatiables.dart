@@ -50,8 +50,9 @@ Submitted_Request,
 
 
   Time_Sheet,
-  Hours_Detail,
-  Premiums_Detail,
+  Hour_,
+  Premium_,
+  Hour_Premium,
 
 
 Saved_timesheet,
@@ -61,3 +62,4 @@ Request_timesheet,
 
 }
 String SelectStr = 'Select ';
+var NUll;

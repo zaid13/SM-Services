@@ -1,5 +1,6 @@
 
 
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:sm_service/App_Initialization/App_classes/DropDowns.dart';
@@ -7,8 +8,10 @@ import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_theme/App_theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class Seacrable_Listview extends StatefulWidget {
-  Seacrable_Listview(this.thw, this.title, this.parent,this.grandparent,this.dropdown) ;
+
+
+class Seacrable_ListviewForSubmenu extends StatefulWidget {
+  Seacrable_ListviewForSubmenu(this.thw, this.title, this.parent,this.grandparent,this.dropdown) ;
 
   final theme thw;
 
@@ -20,10 +23,10 @@ class Seacrable_Listview extends StatefulWidget {
 
 
   @override
-  _Seacrable_ListviewState createState() => new _Seacrable_ListviewState();
+  _Seacrable_ListviewForSubmenuState createState() => new _Seacrable_ListviewForSubmenuState();
 }
 
-class _Seacrable_ListviewState extends State<Seacrable_Listview> {
+class _Seacrable_ListviewForSubmenuState extends State<Seacrable_ListviewForSubmenu> {
   TextEditingController editingController = TextEditingController();
 
   var duplicateItems;
@@ -106,26 +109,18 @@ class _Seacrable_ListviewState extends State<Seacrable_Listview> {
             ),
             Expanded(
               child: FutureBuilder(
-                    future: dropdown.getListview(context,widget , widget.grandparent),
+                  future: dropdown.getListviewforSub(context,widget , widget.grandparent),
                   builder: (context, snapshot) {
                     if(snapshot.hasData)
-                      {
-                        if(snapshot.data.length==0){
-                          return Text("No Data Foundss");
 
-                        }
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            print("object");
-                            return  snapshot.data[index];
-                          },
-                        );
-
-
-                      }
-
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          print("object");
+                          return  snapshot.data[index];
+                        },
+                      );
 
                     return ModalProgressHUD(
                       inAsyncCall: true,
@@ -229,3 +224,5 @@ class _Seacrable_ListviewState extends State<Seacrable_Listview> {
     );
   }
 }
+
+

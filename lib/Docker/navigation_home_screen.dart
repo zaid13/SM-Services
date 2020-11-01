@@ -31,7 +31,7 @@ class NavigationHomeScreen_ABSENCEState extends State<NavigationHomeScreen_ABSEN
 
   getboolabsencerequest()async{
      // isolate = await FlutterIsolate.spawn(isolate1, "hello");
-     sec5Timer();
+     // sec5Timer();
 
      Menu menu = Menu.instance;
 

@@ -47,6 +47,7 @@ class Hourly_type     {
 
     getRandomString(int length) => String.fromCharCodes(Iterable.generate(
         length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+    DropDownCode=this.Prtidd;
 
     mobid = DateTime.now().millisecondsSinceEpoch.toString() +  getRandomString(10);
   }

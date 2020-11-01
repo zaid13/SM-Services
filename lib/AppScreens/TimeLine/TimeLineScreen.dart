@@ -116,7 +116,7 @@ class _Absence_TimelineState extends State<Absence_Timeline> {
                 ),
 
                 Positioned(
-                  top:60 ,
+                  top:40 ,
                   left: 20,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

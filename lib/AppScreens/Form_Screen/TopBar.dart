@@ -40,7 +40,7 @@ class TopBar extends StatelessWidget {
                   height: 150,
                 ),
                 Positioned(
-                  top: 60,
+                  top: 40,
                   left: 60,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -47,7 +47,7 @@ class Emp_Code {
 
   String DefaultVAl ='';
 
-
+String empcodeForSubmission='';  //used in saved and sending data to server
 
   EmpMaster_Timesheet empMaster_timesheet = EmpMaster_Timesheet.instance;
 
@@ -152,6 +152,8 @@ print( '-'+element['${EmpMaster_Timesheet.empid}'].toString() + '-');
 
              body.dropDown_timeSheet.emp_Code .  empCode_empID =
                          element['${EmpMaster_Timesheet.empid}'].toString();
+
+body.dropDown_timeSheet.emp_Code . empcodeForSubmission=  element['${EmpMaster_Timesheet.empcod}'].toString();
 
 
 

@@ -5,36 +5,46 @@
 
 
 
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sm_service/App_Initialization/Funtions.dart';
 
-class Premium_type_db {
-
+class eb_prlattenttrx_Status {
 //  static final _databaseName = "MyDatabase.db";
 
 
-  static final table = 'Premium_type_db';
+  static final table = 'eb_prlattenttrx_Status';
 
-  static final recidd= 'recidd';
-  static final premtype= 'premtype';
-  static final premtypedescription= 'premtypedescription';
-  static final uopidd= 'uopidd';
-  static final uopcod= 'uopcod';
-  static final type= 'type';
+
+  static final ID= 'ID';
+  static final AttEntTrxID= 'AttEntTrxID';
+  static final MainApproverUserID= 'MainApproverUserID';
+  static final ApprovedByUserID= 'ApprovedByUserID';
+  static final RequestStatusID= 'RequestStatusID';
+  static final UpdateDate= 'UpdateDate';
+  static final Remarks= 'Remarks';
+  static final WorkflowID= 'WorkflowID';
+  static final Processed= 'Processed';
+  static final ProcessedDate= 'ProcessedDate';
+  static final VoidedOnRecall= 'VoidedOnRecall';
+  static final WorkflowMasterID= 'WorkflowMasterID';
+  static final UserLevel= 'UserLevel';
+  static final MappingType= 'MappingType';
+  static final Transremarks= 'Transremarks';
+  static final groupidd= 'groupidd';
+  static final groupcode= 'groupcode';
+  static final approvingline= 'approvingline';
+  static final levelversion= 'levelversion';
+  static final tag= 'tag';
+  static final seq= 'seq';
   static final cmpidd= 'cmpidd';
   static final Company= 'Company';
-  static final typecod= 'typecod';
+
+  static final mobid= 'mobid';
 
 
-
-  Premium_type_db._privateConstructor();
-  static final Premium_type_db instance =
-  Premium_type_db._privateConstructor();
+  eb_prlattenttrx_Status._privateConstructor();
+  static final eb_prlattenttrx_Status instance =
+  eb_prlattenttrx_Status._privateConstructor();
 
   // only have a single app-wide reference to the database
   static Database _database;
@@ -53,15 +63,34 @@ class Premium_type_db {
     await db.execute('''
           CREATE TABLE  $table(
          
-$recidd int,
-$premtype nvarchar,
-$premtypedescription nvarchar,
-$uopidd int,
-$uopcod varchar,
-$type int,
-$cmpidd int,
+$ID nvarchar,
+$AttEntTrxID nvarchar,
+$MainApproverUserID nvarchar,
+$ApprovedByUserID nvarchar,
+$RequestStatusID nvarchar,
+$UpdateDate nvarchar,
+$Remarks nvarchar,
+$WorkflowID nvarchar,
+$Processed nvarchar,
+$ProcessedDate nvarchar,
+$VoidedOnRecall nvarchar,
+$WorkflowMasterID nvarchar,
+$UserLevel nvarchar,
+$MappingType varchar,
+$Transremarks nvarchar,
+$groupidd nvarchar,
+$groupcode varchar,
+$approvingline nvarchar,
+$levelversion varchar,
+$tag nvarchar,
+$seq nvarchar,
+$cmpidd nvarchar,
 $Company nvarchar,
-$typecod varchar
+$mobid varchar
+
+
+
+
 
 
   )
@@ -92,14 +121,23 @@ $typecod varchar
 
     Database db = await instance.database;
 
-
-    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} = '${t}' ");
+    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} like '${t}%' ");
 
 
 
     return res;
   }
+   deleteonly(t, String str) async {
 
+    Database db = await instance.database;
+
+
+     db.rawQuery("DELETE FROM ${table} WHERE ${str} LIKE   '${t}%' ");
+return 1;
+
+
+
+  }
   // All of the methods (insert, query, update, delete) can also be done using
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int> queryRowCount() async {

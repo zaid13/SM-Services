@@ -20,7 +20,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool isAutoSync = true;
+  bool isAutoSync = false;
   bool isday =  true;
   bool isloading= false;
 

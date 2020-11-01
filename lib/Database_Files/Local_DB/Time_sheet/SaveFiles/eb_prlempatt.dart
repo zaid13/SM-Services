@@ -5,36 +5,37 @@
 
 
 
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
-import 'package:sm_service/TimeSheet/DropownClasses/Premium_type.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sm_service/App_Initialization/Funtions.dart';
 
-class Premium_type_db {
-
+class eb_prlempatt {
 //  static final _databaseName = "MyDatabase.db";
 
 
-  static final table = 'Premium_type_db';
+  static final table = 'eb_prlempatt';
 
   static final recidd= 'recidd';
-  static final premtype= 'premtype';
-  static final premtypedescription= 'premtypedescription';
-  static final uopidd= 'uopidd';
-  static final uopcod= 'uopcod';
-  static final type= 'type';
+  static final empidd= 'empidd';
+  static final empcod= 'empcod';
+  static final prmtrx= 'prmtrx';
+  static final employeeuserid= 'employeeuserid';
+  static final workflowmasterid= 'workflowmasterid';
+  static final requestdate= 'requestdate';
+  static final remarks= 'remarks';
+  static final submittedbyuserid= 'submittedbyuserid';
+  static final status= 'status';
+  static final isdeleted= 'isdeleted';
   static final cmpidd= 'cmpidd';
   static final Company= 'Company';
-  static final typecod= 'typecod';
+  static final mobid= 'mobid';
 
 
 
-  Premium_type_db._privateConstructor();
-  static final Premium_type_db instance =
-  Premium_type_db._privateConstructor();
+
+
+  eb_prlempatt._privateConstructor();
+  static final eb_prlempatt instance =
+  eb_prlempatt._privateConstructor();
 
   // only have a single app-wide reference to the database
   static Database _database;
@@ -53,15 +54,22 @@ class Premium_type_db {
     await db.execute('''
           CREATE TABLE  $table(
          
-$recidd int,
-$premtype nvarchar,
-$premtypedescription nvarchar,
-$uopidd int,
-$uopcod varchar,
-$type int,
-$cmpidd int,
+$recidd varchar,
+$empidd varchar,
+$empcod nvarchar,
+$prmtrx nvarchar,
+$employeeuserid varchar,
+$workflowmasterid varchar,
+$requestdate varchar,
+$remarks varchar,
+$submittedbyuserid varchar,
+$status varchar,
+$isdeleted varchar,
+$cmpidd varchar,
 $Company nvarchar,
-$typecod varchar
+$mobid varchar
+
+
 
 
   )
@@ -92,14 +100,22 @@ $typecod varchar
 
     Database db = await instance.database;
 
-
     var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} = '${t}' ");
 
 
 
     return res;
   }
+   deleteonly(t, String str) async {
 
+    Database db = await instance.database;
+
+     db.rawQuery("DELETE FROM ${table} WHERE ${str} = '${t}' ");
+return 1;
+
+
+
+  }
   // All of the methods (insert, query, update, delete) can also be done using
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int> queryRowCount() async {

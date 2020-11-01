@@ -20,6 +20,9 @@ import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_vatiables.dart';
 import 'package:sm_service/AppScreens/Form_Screen/TopBar.dart';
 import 'package:sm_service/App_Initialization/Funtions.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Submenu_localDB/Timesheet_Hour.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Submenu_localDB/Timesheet_Hour_Premium.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Submenu_localDB/Timesheet_Premium.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/TimeSheetParameter.dart';
 import 'package:sm_service/TimeSheet/DropownClasses/ID_2.dart';
 import 'package:sm_service/TimeSheet/DropownClasses/Emp_Code.dart';
@@ -63,6 +66,28 @@ import 'package:sm_service/Database_Files/Local_DB/Absence_Transaction.dart';
 import 'package:sm_service/Database_Files/Server_Files/Eb_prllevtrx_status.dart';
 import 'package:sm_service/Database_Files/Updating_All_DB.dart';
 
+
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Get_project_dropdown/ProjectD1.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Get_project_dropdown/ProjectD2.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Independent_Dropdowns/Independent_dropDown_1.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlattenttrx_Status.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatd_prt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatd_hrt_prt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatm.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatd_hrt.dart';
+
+
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Get_project_dropdown/ProjectD1.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Get_project_dropdown/ProjectD2.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Independent_Dropdowns/Independent_dropDown_1.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlattenttrx_Status.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatd_prt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatd_hrt_prt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatm.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlempatt.dart';
+import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlattenttrx_Status.dart';
+
 class RequestForm extends StatefulWidget {
   Screen_type screentype;
   theme th;
@@ -103,84 +128,177 @@ class _RequestFormState extends State<RequestForm> {
   getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-  getMapdata() {
+  getMapdata() async {
+    await SaveForm();
+
+
+    final Eb_prlempatd_hrt = eb_prlempatd_hrt.instance;
+    final Eb_prlempatd_prt = eb_prlempatd_prt.instance;
+    final Eb_prlempatd_hrt_prt = eb_prlempatd_hrt_prt.instance;
+    final Eb_prlempatt = eb_prlempatt.instance;
+    final Eb_prlempatm = eb_prlempatm.instance;
+
+    List demo = await Eb_prlempatd_prt.queryAllRows();
+      demo.forEach((element) {
+        print(element);
+
+      });
+
+    List lsTime = await Eb_prlempatd_hrt.queryonlyRows(FormId, eb_prlempatd_hrt.mobid);
+    List lsPremium = await Eb_prlempatd_prt.queryonlyRows(FormId,eb_prlempatd_prt.mobid);
+    List lsTime_Premium = await Eb_prlempatd_hrt_prt.queryonlyRows(FormId,eb_prlempatd_hrt_prt.mobid);
+    List lsEb_prlempatt = await Eb_prlempatt.queryonlyRows(FormId,eb_prlempatd_hrt_prt.mobid);
+    List lsEb_prlempatm = await Eb_prlempatm.queryonlyRows(FormId,eb_prlempatd_hrt_prt.mobid);
+
+    Map MAPlsEb_prlempatt;
+
+    Map MAPlsEb_prlempatm;
+    if(lsEb_prlempatt.length>0){
+
+       MAPlsEb_prlempatt =lsEb_prlempatt[0];
+
+    }
+else{print("ERROR     Map lsEb_prlempatt =lsEb_prlempatt.first is EMPTY");
+    return{};
+}
+
+    if(lsEb_prlempatm.length>0){
+
+       MAPlsEb_prlempatm =lsEb_prlempatm[0];
+
+
+    }
+    else{print("ERROR     Map lsEb_prlempatm =lsEb_prlempatt.first is EMPTY");
+    return{};
+    }
+
+
+
+
+    List mptime_upload = [];
+    List mppremium_upload = [];
+    List  mptime_premium_upload= [];
+
+    lsTime.forEach((element) {
+      mptime_upload.add({
+        "Hrclsidd": element[eb_prlempatd_hrt.hrclsidd],
+        "Hrclscod": element[eb_prlempatd_hrt.hrclscod],///TODO
+        "Hours": element[eb_prlempatd_hrt.hours],
+        "Htdesc": element[eb_prlempatd_hrt.htdesc],
+        "mobid": element[eb_prlempatd_hrt.mobid]
+      }
+
+        );
+
+    });
+
+    lsPremium.forEach((element) {
+      print(element);
+      mppremium_upload.add(  {
+        "Prtidd": element[eb_prlempatd_prt.prtidd],
+        "Prtcod": element[eb_prlempatd_prt.prtcod],
+        "Prtval": element[eb_prlempatd_prt.prtval],
+        "ptdesc": element[eb_prlempatd_prt.ptdesc],
+        "mobid": element[eb_prlempatd_prt.mobid]
+      },);
+
+    });
+
+    lsTime_Premium.forEach((element) {
+      mptime_premium_upload.add(
+          {
+            "hrtdidd": element[eb_prlempatd_hrt_prt.hrtdidd],
+            "prtidd":  element[eb_prlempatd_hrt_prt.prtidd],
+            "prtcod":  element[eb_prlempatd_hrt_prt.prtcod],
+            "prtval":  element[eb_prlempatd_hrt_prt.prtval],
+            "prtdesc":  element[eb_prlempatd_hrt_prt.ptdesc],
+            "mobid": element[eb_prlempatd_hrt_prt.mobid],
+          }
+      );
+    });
+
+
+
+
     Map mp ={
 
       "TimeSheetMainForm": {
-        "EmpId": 122,
-        "EmpCod": "121",
-        "PositionId": 4,
-        "PositionCod": "Oct",
-        "DependantDD1ID": dropDown_timeSheet.dependentDropDown_1.DropDownCode,
-        "DependantDD2ID": dropDown_timeSheet.dependentDropDown_2.DropDownCode,
-        "DependantDD3ID": dropDown_timeSheet.dependentDropDown_3.DropDownCode,
-        "DependantDD4ID": dropDown_timeSheet.dependentDropDown_4.DropDownCode,
-        "DependantDD1Code":  dropDown_timeSheet.dependentDropDown_1.DropDownValue,
-        "DependantDD2Code": dropDown_timeSheet.dependentDropDown_2.DropDownValue,
-        "DependantDD3Code": dropDown_timeSheet.dependentDropDown_3.DropDownValue,
-        "DependantDD4Code": dropDown_timeSheet.dependentDropDown_4.DropDownValue,
-        "IndependentDD1Id": dropDown_timeSheet.independentDropDown_1.DropDownCode,
-        "IndependentDD1Code": dropDown_timeSheet.independentDropDown_1.DropDownValue,
-        "IndependentDD2Id": dropDown_timeSheet.independentDropDown_2.DropDownCode,
-        "IndependentDD2Code": dropDown_timeSheet.independentDropDown_2.DropDownCode,
-        "Date":   date_controller1.text,
-        "Attchment": "att",
-        "mobid": DateTime.now().millisecondsSinceEpoch.toString()+getRandomString(10)
+        "EmpId":MAPlsEb_prlempatt[eb_prlempatt.empidd],
+        "EmpCod": MAPlsEb_prlempatt[eb_prlempatt.empcod],
+        "PositionId":   MAPlsEb_prlempatm[eb_prlempatm.posidd],
+
+
+        "PositionCod": returnNUlliFDefault(  MAPlsEb_prlempatm[eb_prlempatm.poscod],dropDown_timeSheet.position.DefaultVAl),  //turn null if
+        "DependantDD1ID": MAPlsEb_prlempatm[eb_prlempatm.prjtypidd],
+        "DependantDD2ID":   MAPlsEb_prlempatm[eb_prlempatm.prjidd],
+        "DependantDD3ID":  MAPlsEb_prlempatm[eb_prlempatm.subprjidd],
+        "DependantDD4ID":  MAPlsEb_prlempatm[eb_prlempatm.prjsbdtidd],
+        "DependantDD1Code":   MAPlsEb_prlempatm[eb_prlempatm.prjtypcod],
+        "DependantDD2Code":  MAPlsEb_prlempatm[eb_prlempatm.prjcod],
+        "DependantDD3Code":  MAPlsEb_prlempatm[eb_prlempatm.subprjcod],
+        "DependantDD4Code":MAPlsEb_prlempatm[eb_prlempatm.prjsbdtcod],
+        "IndependentDD1Id": MAPlsEb_prlempatm[eb_prlempatm.indepndtidd],
+        "IndependentDD1Code": MAPlsEb_prlempatm[eb_prlempatm.indepndtcod],
+        "IndependentDD2Id": MAPlsEb_prlempatm[eb_prlempatm.indepndtidd2],
+        "IndependentDD2Code": MAPlsEb_prlempatm[eb_prlempatm.indepndtcod2],
+        "Date":    MAPlsEb_prlempatm[eb_prlempatm.attdat],
+        "Attchment": '""',
+        "mobid": FormId
       },
-      "EmpHourTypeList":
-        [
-          {
-            "Hrclsidd": 130,
-            "Hrclscod": "JMANOT",
-            "Hours": "8.00",
-            "Htdesc": "JMAN Overtime",
-            "mobid": "32384321-1"
-          },
-          {
-            "Hrclsidd": 130,
-            "Hrclscod": "JMAN",
-            "Hours": "4.3",
-            "Htdesc": "JouneyMan Hours",
-            "mobid": "3238432-2"
-          },
-          {
-            "Hrclsidd": 130,
-            "Hrclscod": "JMAN",
-            "Hours": "4.3",
-            "Htdesc": "JouneyMan Hours",
-            "mobid": "3238432-3"
-          }
-        ],
+      "EmpHourTypeList":mptime_upload,
+        // [
+        //   // {
+        //   //   "Hrclsidd": 130,
+        //   //   "Hrclscod": "JMANOT",
+        //   //   "Hours": "8.00",
+        //   //   "Htdesc": "JMAN Overtime",
+        //   //   "mobid": "32384321-1"
+        //   // },
+        //   // {
+        //   //   "Hrclsidd": 130,
+        //   //   "Hrclscod": "JMAN",
+        //   //   "Hours": "4.3",
+        //   //   "Htdesc": "JouneyMan Hours",
+        //   //   "mobid": "3238432-2"
+        //   // },
+        //   // {
+        //   //   "Hrclsidd": 130,
+        //   //   "Hrclscod": "JMAN",
+        //   //   "Hours": "4.3",
+        //   //   "Htdesc": "JouneyMan Hours",
+        //   //   "mobid": "3238432-3"
+        //   // }
+        // ],
 
-      "PremiumTypeList":
-        [
-          {
-            "Prtidd": 130,
-            "Prtcod": "Shift",
-            "Prtval": "1.00",
-            "ptdesc": "Shift Premium for the day",
-            "mobid": "3238432"
-          },
-          {
-            "Prtidd": 130,
-            "Prtcod": "Travel",
-            "Prtval": "1.00",
-            "ptdesc": "Travel Premium for the day",
-            "mobid": "3238432"
-          }
-        ],
+      "PremiumTypeList":mppremium_upload,
+        // [
+        //   {
+        //     "Prtidd": 130,
+        //     "Prtcod": "Shift",
+        //     "Prtval": "1.00",
+        //     "ptdesc": "Shift Premium for the day",
+        //     "mobid": "3238432"
+        //   },
+        //   {
+        //     "Prtidd": 130,
+        //     "Prtcod": "Travel",
+        //     "Prtval": "1.00",
+        //     "ptdesc": "Travel Premium for the day",
+        //     "mobid": "3238432"
+        //   }
+        // ],
 
-      "EmpHourTypePremiumTypeList":
-        [
-          {
-            "hrtdidd": 130,
-            "prtidd": "1",
-            "prtcod": "Shift",
-            "prtval": "1",
-            "prtdesc": "Shift1",
-            "mobid": "3238432-2"
-          }
-        ]
+      "EmpHourTypePremiumTypeList":mptime_premium_upload
+        // [
+        //   {
+        //     "hrtdidd": 130,
+        //     "prtidd": "1",
+        //     "prtcod": "Shift",
+        //     "prtval": "1",
+        //     "prtdesc": "Shift1",
+        //     "mobid": "3238432-2"
+        //   }
+        // ]
 
 
     };
@@ -188,25 +306,255 @@ class _RequestFormState extends State<RequestForm> {
 
   }
 
-  SaveForm() {}
-  submitForm() {
+  SaveForm() async {
+    String saveMobID =FormId;
+    insering_allDB alldb=insering_allDB();
+    alldb.inserteb_prlempatt(
+      recidd: "0",
+      isdeleted:"0" ,
+      cmpidd: "0",
+      Company: "",
+      empcod: dropDown_timeSheet.emp_Code.empcodeForSubmission,
+      empidd:dropDown_timeSheet.emp_Code.DropDownCode ,
+      employeeuserid: uid,
+      prmtrx: "",
+      remarks: Comentr_Controler.text,
+      requestdate:  DateFormat('dd-MMMM-yyyy').format(DateTime.now()),
+      status: "0",
+      submittedbyuserid: uid,
+      workflowmasterid: "0",
+mobid: saveMobID
+
+    );
+alldb.inserteb_prlempatm(
+  mobid: saveMobID,
+  prmtrx: 0,
+  empcod: dropDown_timeSheet.emp_Code.empcodeForSubmission,
+  empidd:dropDown_timeSheet.emp_Code.DropDownCode ,
+  posidd: dropDown_timeSheet.position.DropDownCode,
+  poscod: returnNUlliFDefault(dropDown_timeSheet.position.DropDownValue,dropDown_timeSheet.position.DefaultVAl),
+  Company: "",
+  cmpidd: 0,
+  isdeleted: 0,
+  recidd: 0,
+  attcmt: Comentr_Controler.text,
+  attdat: date_controller1.text ,
+  attetm: 0,
+  attftm: 0,
+  attseq: 0,
+  atttcd:0,
+  atttyp:1,
+  calcod:"",
+  calidd:0,
+  indepndtcod2:  dropDown_timeSheet.independentDropDown_2.DropDownValue,
+  indepndtidd2:   dropDown_timeSheet.independentDropDown_2.DropDownCode,
+  indepndtcod:  dropDown_timeSheet.independentDropDown_1.DropDownValue,
+  indepndtidd:   dropDown_timeSheet.independentDropDown_2.DropDownCode,
+  prjcod: dropDown_timeSheet.dependentDropDown_2.DropDownValue,
+  prjidd:  dropDown_timeSheet.dependentDropDown_2.DropDownCode,
+  prjsbdtcod: dropDown_timeSheet.dependentDropDown_4.DropDownValue,
+  prjsbdtidd: dropDown_timeSheet.dependentDropDown_4.DropDownCode ,
+  prjtypcod: dropDown_timeSheet.dependentDropDown_1.DropDownValue,
+  prjtypidd:  dropDown_timeSheet.dependentDropDown_1.DropDownCode ,
+  prmidd:0 ,
+  shfidd:0 ,
+  shftcod:0 ,
+  shtval:"" ,
+  subprjcod: dropDown_timeSheet.dependentDropDown_3.DropDownValue ,
+  subprjidd:dropDown_timeSheet.dependentDropDown_3.DropDownCode ,
+  subtrx:0
+
+
+
+);
+
+    Timesheet_Hour timesheet_hour = Timesheet_Hour.instance;
+    Timesheet_Premium timesheet_premium = Timesheet_Premium.instance;
+    Timesheet_Hour_Premium timesheet_hour_premium =
+        Timesheet_Hour_Premium.instance;
+
+    List lsTime = await timesheet_hour.queryonlyRows(FormId, Timesheet_Hour.mobid);
+    List lsPremium = await timesheet_premium.queryonlyRows(FormId,Timesheet_Premium.mobid);
+    List lsTime_Premium = await timesheet_hour_premium.queryonlyRows(FormId,Timesheet_Hour_Premium.mobid);
+
+    lsTime.forEach((element) {
+      alldb.inserteb_prlempatd_hrt(
+        recidd: 0,
+        isdeleted: 0,
+        cmpidd: 0,
+        Company: "",
+        mobid:  element[Timesheet_Hour.mobid],
+        mrecidd: 0,
+        htdesc: element[Timesheet_Hour.htdesc],
+        hrclsidd: element[Timesheet_Hour.hrclsidd],
+        hrclscod:  element[Timesheet_Hour.hrclscod],///TODO
+        hours:element[Timesheet_Hour.hours] ,
+
+      );
+
+    });
+    lsPremium.forEach((element) {
+      alldb.inserteb_prlempatd_prt(
+        mrecidd:0 ,
+        mobid:element[Timesheet_Premium.mobid] ,
+        Company: "",
+        cmpidd: 0,
+        isdeleted:0,
+        recidd: 0,
+        prtcod: element[Timesheet_Premium.prtcod],
+        prtidd: element[Timesheet_Premium.prtidd],
+        prtval:element[Timesheet_Premium.prtval],
+        ptdesc:  element[Timesheet_Premium.ptdesc],
+
+      );
+
+    });
+    lsTime_Premium.forEach((element) {
+      alldb.inserteb_prlempatd_hrt_prt(
+
+        mrecidd:0 ,
+        mobid:element[Timesheet_Hour_Premium.mobid] ,
+        Company: "",
+        cmpidd: 0,
+        isdeleted:0,
+        recidd: 0,
+        prtcod: element[Timesheet_Hour_Premium.prtcod],
+        prtidd: element[Timesheet_Hour_Premium.prtidd],
+        prtval:element[Timesheet_Hour_Premium.prtval],
+        ptdesc:  element[Timesheet_Hour_Premium.ptdesc],
+        hrtdidd: element[Timesheet_Hour_Premium.hrtdidd],
+
+      );
+
+
+    });
+
+
+
+  }
+  submitForm() async {
+
+printall_table();
+
     String username = id;
     String password = pas;
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
-
-    return http.post(
-      'http://smemobapi.azurewebsites.net/api/TimeSheetTransaction/InsertTimeSheet?UserId=3130',
+var data = await getMapdata();
+print(data);
+print(uid);
+    Response p=await http.post(
+      'http://smemobapi.azurewebsites.net/api/TimeSheetTransaction/InsertTimeSheet?UserId=$uid',
       headers: <String, String>{
         'Host': "smemobapi.azurewebsites.net",
         'Authorization': basicAuth,
         'Content-Type': 'application/json',
       },
-      body: jsonEncode(getMapdata()
-
+      body: jsonEncode(data
 
           ),
     );
+
+    print(p.body);
+
+
+    Response g=await http.get(
+      'http://smemobapi.azurewebsites.net/api/TimeSheetTransaction/GetTimeSheetFullRecordset?mobid=$FormId',
+      headers: <String, String>{
+        'Host': "smemobapi.azurewebsites.net",
+        'Authorization': basicAuth,
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print(g.body);
+    final json=JSON.jsonDecode(g.body);
+
+    final Eb_prlempatd_hrt = eb_prlempatd_hrt.instance;
+    final Eb_prlempatd_prt = eb_prlempatd_prt.instance;
+    final Eb_prlempatd_hrt_prt = eb_prlempatd_hrt_prt.instance;
+    final Eb_prlempatt = eb_prlempatt.instance;
+    final Eb_prlempatm = eb_prlempatm.instance;
+    final Eb_prlattenttrx_Status = eb_prlattenttrx_Status.instance;
+
+    List demo = await Eb_prlempatd_prt.queryAllRows();
+    demo.forEach((element) {
+      print(element);
+
+    });
+
+     await Eb_prlempatd_hrt.deleteonly(FormId, eb_prlempatd_hrt.mobid);
+     await Eb_prlempatd_prt.deleteonly(FormId,eb_prlempatd_prt.mobid);
+     await Eb_prlempatd_hrt_prt.deleteonly(FormId,eb_prlempatd_hrt_prt.mobid);
+     await Eb_prlempatt.deleteonly(FormId,eb_prlempatd_hrt_prt.mobid);
+     await Eb_prlempatm.deleteonly(FormId,eb_prlempatd_hrt_prt.mobid);
+
+    String saveMobID =FormId;
+    insering_allDB alldb=insering_allDB();
+    // alldb.inserteb_prlempatt );
+    Eb_prlempatt.insert(json['eb_prlempatt'][0]);
+    Eb_prlempatm.insert(json['eb_prlempatm'][0]);
+
+     Eb_prlattenttrx_Status.insert(json['eb_prlattenttrx_Status'][0]);
+    List lsTime = json['eb_prlempatd_hrt'];//await timesheet_hour.queryonlyRows(FormId, Timesheet_Hour.mobid);
+    List lsPremium = json['eb_prlempatd_prt'];//await timesheet_premium.queryonlyRows(FormId,Timesheet_Premium.mobid);
+    List lsTime_Premium = json['eb_prlempatd_hrt_prt'];//await timesheet_hour_premium.queryonlyRows(FormId,Timesheet_Hour_Premium.mobid);
+
+    lsTime.forEach((element) {
+      alldb.inserteb_prlempatd_hrt(
+        recidd: 0,
+        isdeleted: 0,
+        cmpidd: 0,
+        Company: "",
+        mobid:  element[Timesheet_Hour.mobid],
+        mrecidd: 0,
+        htdesc: element[Timesheet_Hour.htdesc],
+        hrclsidd: element[Timesheet_Hour.hrclsidd],
+        hrclscod:  element[Timesheet_Hour.hrclscod],///TODO
+        hours:element[Timesheet_Hour.hours] ,
+
+      );
+
+    });
+    lsPremium.forEach((element) {
+      alldb.inserteb_prlempatd_prt(
+        mrecidd:0 ,
+        mobid:element[Timesheet_Premium.mobid] ,
+        Company: "",
+        cmpidd: 0,
+        isdeleted:0,
+        recidd: 0,
+        prtcod: element[Timesheet_Premium.prtcod],
+        prtidd: element[Timesheet_Premium.prtidd],
+        prtval:element[Timesheet_Premium.prtval],
+        ptdesc:  element[Timesheet_Premium.ptdesc],
+
+      );
+
+    });
+    lsTime_Premium.forEach((element) {
+      alldb.inserteb_prlempatd_hrt_prt(
+
+        mrecidd:0 ,
+        mobid:element[Timesheet_Hour_Premium.mobid] ,
+        Company: "",
+        cmpidd: 0,
+        isdeleted:0,
+        recidd: 0,
+        prtcod: element[Timesheet_Hour_Premium.prtcod],
+        prtidd: element[Timesheet_Hour_Premium.prtidd],
+        prtval:element[Timesheet_Hour_Premium.prtval],
+        ptdesc:  element[Timesheet_Hour_Premium.ptdesc],
+        hrtdidd: element[Timesheet_Hour_Premium.hrtdidd],
+
+      );
+
+
+    });
+    printall_table();
+    changeFormid();
+
+
   }
 
   attachForm() {}
@@ -227,10 +575,13 @@ class _RequestFormState extends State<RequestForm> {
           },
           changeIndex: (int index) async {
             print(index);
-            if (index == 0) {}
+            if (index == 0) {
+              SaveForm();
+            }
 
             if (index == 1) {
-              submitForm();
+            await submitForm();
+
             }
             if (index == 2) {}
             if (index == 3) {}
@@ -298,6 +649,18 @@ class _RequestFormState extends State<RequestForm> {
     return 1;
   }
 
+
+  String FormId =getID();
+
+  changeFormid(){
+print(FormId);
+    print("mobid changed ");
+    FormId =getID();
+print(FormId);
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -314,14 +677,14 @@ class _RequestFormState extends State<RequestForm> {
                   children: <Widget>[
                     IconButton(
                       icon: Icon(
-                        Icons.settings,
+                        Icons.timer,
                         color: Colors.white,
                       ),
                       onPressed: () {
                         showDialog(
                           context: context,
                           builder: (context) =>
-                              Detail_Form(Screen_type.Hours_Detail, th),
+                              Detail_Form(Screen_type.Hour_, th,FormId),
                         );
                       },
                     ),
@@ -330,10 +693,10 @@ class _RequestFormState extends State<RequestForm> {
                         showDialog(
                           context: context,
                           builder: (context) =>
-                              Detail_Form(Screen_type.Premiums_Detail, th),
+                              Detail_Form(Screen_type.Premium_, th,FormId),
                         );
                       },
-                      icon: Icon(Icons.timer, color: Colors.white),
+                      icon: Icon(Icons.settings, color: Colors.white),
                     )
                   ],
                 ),
@@ -617,20 +980,54 @@ class _RequestFormState extends State<RequestForm> {
 }
 
 
-class Premiumtypedata{
-  Premiumtypedata() {
-    var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    Random _rnd = Random();
 
-    getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-    mobid = DateTime.now().millisecondsSinceEpoch.toString() +  getRandomString(10);
-  }
+printall_table() async {
 
-  String mobid;
-  String Prtidd;
-  String Prtcod;
-  String Prtval;
-  String ptdesc;
+
+  final Eb_prlempatd_hrt = eb_prlempatd_hrt.instance;
+  final Eb_prlempatd_prt = eb_prlempatd_prt.instance;
+  final Eb_prlempatd_hrt_prt = eb_prlempatd_hrt_prt.instance;
+  final Eb_prlempatt = eb_prlempatt.instance;
+  final Eb_prlempatm = eb_prlempatm.instance;
+  final Eb_prlattenttrx_Status = eb_prlattenttrx_Status.instance;
+
+ List lsEb_prlempatm =  await   Eb_prlempatm.queryAllRows();
+ List lsEb_prlempatt =  await   Eb_prlempatt.queryAllRows();
+ List lsEb_prlattenttrx_Status =  await   Eb_prlattenttrx_Status.queryAllRows();
+ List lsEb_prlempatd_hrt =  await   Eb_prlempatd_hrt.queryAllRows();
+ List lsEb_prlempatd_prt =  await   Eb_prlempatd_prt.queryAllRows();
+ List lsEb_prlempatd_hrt_prt =  await   Eb_prlempatd_hrt_prt.queryAllRows();
+
+
+  lsEb_prlempatm.forEach((element) {
+    print('lsEb_prlempatm\n');
+    print(element);
+
+  });
+  lsEb_prlempatt.forEach((element) {
+    print('lsEb_prlempatt\n');
+    print(element);
+  });
+  lsEb_prlattenttrx_Status.forEach((element) {
+    print('lsEb_prlattenttrx_Status\n');
+    print(element);
+  });
+  lsEb_prlempatd_hrt.forEach((element) {
+    print('lsEb_prlempatd_hrt\n');
+    print(element);
+
+  });
+  lsEb_prlempatd_prt.forEach((element) {
+    print('lsEb_prlempatd_prt\n');
+    print(element);
+
+  });
+  lsEb_prlempatd_hrt_prt.forEach((element) {
+    print('lsEb_prlempatd_hrt_prt\n');
+    print(element);
+
+  });
+
+
 }

@@ -47,6 +47,8 @@ class Premium_type     {
         length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
     mobid = DateTime.now().millisecondsSinceEpoch.toString() +  getRandomString(10);
+    DropDownCode=this.Prtidd;
+
   }
 
   String mobid;
@@ -69,7 +71,7 @@ class Premium_type     {
   getListview(context, widget,body) async {
 
 
-    List ls = await getPrjD1.queryAllRows();
+    List ls = await getPrjD1.queryonlyRows('1', Premium_type_db.type);
     if(ls.length==0)
       return;
 
@@ -121,6 +123,59 @@ class Premium_type     {
     return widlist;
   }
 
+  getListviewforSub(context, widget,body) async {
 
+
+    List ls = await getPrjD1.queryonlyRows('2', Premium_type_db.type);
+    if(ls.length==0)
+      return;
+
+    List <Widget> widlist = [];
+    int index =0;
+
+    ls.forEach((element) {
+      print(element);
+      index++;
+      widlist.add(Container(
+        color: index % 2==0 ?Colors.white:Colors.transparent,
+        child: FlatButton(
+          onPressed: () {
+
+
+            widget.parent.parent.setState(() {
+              body.parent.dropdown [   body.parent.selectedindex  ].   DropDownValue =
+                  element['${Premium_type_db.premtype}'].toString();
+
+              body.parent.dropdown [     body.parent.selectedindex].   DropDownCode =
+
+                  element['${Premium_type_db.recidd}'].toString();
+            });
+            Navigator.pop(context);
+
+
+          },
+          child: Row(
+            children: [
+              Flexible(
+                child: ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(element[Premium_type_db.premtype]),
+                        Text(element[Premium_type_db.premtypedescription]),
+
+                      ],
+                    )
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      ));
+    });
+
+    return widlist;
+  }
 
 }
