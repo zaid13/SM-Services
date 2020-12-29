@@ -17,12 +17,23 @@ class DropDown_4{
   final vacationEntryType = VacationEntryType.instance;
 
   setValues(newval) async {
-
+print("Entry value ");
+print(newval);
     DropDownCode = newval;
-    List ls  = await vacationEntryType.queryifandonlyif(VacationEntryType.value ,DropDownCode  );
+
+List op = await vacationEntryType.queryAllRows();
+op.forEach((element) {
+  print(element);
+});
+
+    List ls  = await vacationEntryType.queryifandonlyif(VacationEntryType.value ,newval  );
     if(ls.length==0)
       return;
+
     DropDownValue= ls.first[VacationEntryType.text];
+
+return DropDownValue;
+
   }
 
 
@@ -36,7 +47,7 @@ class DropDown_4{
     await setValues(DropDownCode);
   }
   getListview(context, widget
-      ,body) async {
+      ,body,th) async {
 
     final absenceTypes = AbsenceTypes.instance;
 
@@ -108,7 +119,7 @@ class DropDown_4{
             children: [
               Flexible(
                 child: ListTile(
-                    title: Text(element[VacationEntryType.text])
+                    title: Text(element[VacationEntryType.text],style: TextStyle(color: th.pr))
                 ),
               ),
 

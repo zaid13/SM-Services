@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -37,7 +37,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -82,7 +82,7 @@ class DD_4     {
 
   final getPrjD4 = ProjectD4.instance;
 
-  getListview(context, widget,body) async {
+  getListview(context, widget,body,th) async {
 
 
     List ls = await getPrjD4.queryonlyRows_2col(
@@ -105,10 +105,10 @@ class DD_4     {
     int index =0;
 
     ls.forEach((element) {
-      print(element);
+
       index++;
       widlist.add(Container(
-        color: index % 2==0 ?Colors.white: Day().bk,
+        color: th.bk,
         child: FlatButton(
           onPressed: () {
             widget.parent.setState(() {
@@ -128,8 +128,8 @@ class DD_4     {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(element[ProjectD4.prjsubdtlcod]),
-                        Text(element[ProjectD4.description]),
+                        Text(element[ProjectD4.prjsubdtlcod],style: TextStyle(color: th.pr)),
+                        Text(element[ProjectD4.description],style: TextStyle(color: th.pr)),
 
                       ],
                     )

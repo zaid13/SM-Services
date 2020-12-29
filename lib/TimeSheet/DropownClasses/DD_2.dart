@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -52,7 +52,7 @@ class DD_2     {
 
     }
 
-    getListview(context, widget,body) async {
+    getListview(context, widget,body,th) async {
 
 
       List ls = await getPrjD2.queryonlyRows_2col(
@@ -70,7 +70,7 @@ class DD_2     {
       ls.forEach((element) {
         index++;
         widlist.add(Container(
-          color: index % 2==0 ?Colors.white: Day().bk,
+          color: th.bk,
           child: FlatButton(
             onPressed: () {
               widget.parent.setState(() {
@@ -93,8 +93,8 @@ class DD_2     {
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(element[ProjectD2.prjcod]),
-                          Text(element[ProjectD2.prjds1]),
+                          Text(element[ProjectD2.prjcod],style: TextStyle(color: th.pr)),
+                          Text(element[ProjectD2.prjds1],style: TextStyle(color: th.pr)),
 
                         ],
                       )

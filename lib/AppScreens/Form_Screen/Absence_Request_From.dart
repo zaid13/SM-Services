@@ -33,7 +33,7 @@ class Absence_Request_Form extends StatefulWidget {
 
 class _Absence_Request_FormState extends State<Absence_Request_Form> {
 
-  List<TabIconData> tabIconsList ;
+
 
   bool _working = false;
 @override
@@ -42,19 +42,42 @@ class _Absence_Request_FormState extends State<Absence_Request_Form> {
   }
   @override
   Widget build(BuildContext context) {
-return Scaffold(
-  body: Column(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: <Widget>[
+return SafeArea(
+  child:   Scaffold(
 
-      TopBar(widget.th,widget.screentype),
-      Expanded(
-        child: Absence_Body(widget.th,widget.screentype,widget.parent,widget.mobid),
+    backgroundColor: widget.th.bk,
+
+    body: Container(
+
+      height: MediaQuery.of(context).size.height,
+
+      child: Column(
+
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+        children: <Widget>[
+
+
+
+          TopBar(widget.th,widget.screentype),
+
+          Expanded(
+
+            child: Absence_Body(widget.th,widget.screentype,widget.parent,widget.mobid),
+
+          ),
+
+
+
+
+
+        ],
+
       ),
 
+    )
 
-    ],
-  )
+  ),
 );
 
   }

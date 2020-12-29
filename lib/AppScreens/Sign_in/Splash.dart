@@ -29,11 +29,11 @@ class Splash extends StatelessWidget {
 
         int y = await signin.queryRowCount();
 
-        if(y==0){  //not sign in
+        if(y==0){  //not sign in so go to sign in screen
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => LoginScreen()));
         }
-        else{
+        else{ // sign in so go to main app screen
           List  p = await signin.queryAllRows();
           Map mp = p.first;
           id =  mp[SigninUser.user];
@@ -49,14 +49,16 @@ class Splash extends StatelessWidget {
       oneTime = false;
     }
 
-    return MaterialApp(
-        home: Scaffold(
-          body: Container(
-              margin: EdgeInsets.only(bottom: 5),
-              child: Center(
-                child: Image.asset('assets/ecorp.png'),
-              )),
-        ));
+    return SafeArea(
+      child: MaterialApp(
+          home: Scaffold(
+            body: Container(
+                margin: EdgeInsets.only(bottom: 5),
+                child: Center(
+                  child: Image.asset('assets/ecorp.png'),
+                )),
+          )),
+    );
   }
 
 

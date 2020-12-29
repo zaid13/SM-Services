@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -103,10 +103,10 @@ String empcodeForSubmission='';  //used in saved and sending data to server
     return setValuesby_RecordID(usid);
   }
 
-  getListview(context, widget ,body) async {
+  getListview(context, widget ,body,th) async {
 
     List ls = await empMaster_timesheet.queryAllRows();
-    print(ls.length);
+
 
     if(ls.length==0)
       return;
@@ -115,28 +115,25 @@ String empcodeForSubmission='';  //used in saved and sending data to server
     List <Widget> widlist = [];
     int index =0;
     ls.forEach((element) {
-      print(element['FirstName'] + "  " + element['LastName']);
 
       index++;
       widlist.add(Container(
-        color: index % 2==0 ?Colors.white: Day().bk,
+        color:th.bk,
         child: FlatButton(
           onPressed: () {
             widget.parent.setState(() {
 
 
-print( '-'+ body.dropDown_timeSheet.emp_Code .  empCode_empID.toString() + '-');
-print( '-'+element['${EmpMaster_Timesheet.empid}'].toString() + '-');
 
 
               if(  body.dropDown_timeSheet.emp_Code .  empCode_empID.toString().compareTo(   element['${EmpMaster_Timesheet.empcod}'].toString())!=0)
                 {
-                  print("reset all drop downs ");
+
                   reset(     body.dropDown_timeSheet.dependentDropDown_1,   body.dropDown_timeSheet.dependentDropDown_2, body.dropDown_timeSheet.dependentDropDown_3, body.dropDown_timeSheet.dependentDropDown_4);
 
                 }
               else{
-                print("NOT reset all drop downs ");
+
 
 
               }
@@ -169,17 +166,17 @@ body.dropDown_timeSheet.emp_Code . empcodeForSubmission=  element['${EmpMaster_T
               title:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(element['${EmpMaster_Timesheet.empcod}'].toString()),
+                  Text(element['${EmpMaster_Timesheet.empcod}'].toString(),style: TextStyle(color: th.pr)),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
 
-                      Text(element['FirstName'] + "  " + element['LastName']),
-                      Text(element['${EmpMaster_Timesheet.dptcod}'].toString())
+                      Text(element['FirstName'] + "  " + element['LastName'],style: TextStyle(color: th.pr)),
+                      Text(element['${EmpMaster_Timesheet.dptcod}'].toString(),style: TextStyle(color: th.pr))
 
                     ],),
-                  Text(element['${EmpMaster_Timesheet.poscod}'].toString()),
+                  Text(element['${EmpMaster_Timesheet.poscod}'].toString(),style: TextStyle(color: th.pr)),
 
                 ],
               )
@@ -193,7 +190,7 @@ body.dropDown_timeSheet.emp_Code . empcodeForSubmission=  element['${EmpMaster_T
         ),
       ));
     });
-    print("widlist");
+
 
 
     return widlist;

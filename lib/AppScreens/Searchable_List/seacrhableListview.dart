@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sm_service/AppScreens/Form_Screen/TopBar.dart';
 import 'package:sm_service/App_Initialization/App_classes/DropDowns.dart';
 import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_theme/App_theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:sm_service/App_Initialization/App_vatiables.dart';
 
 class Seacrable_Listview extends StatefulWidget {
   Seacrable_Listview(this.thw, this.title, this.parent,this.grandparent,this.dropdown) ;
@@ -65,77 +67,81 @@ class _Seacrable_ListviewState extends State<Seacrable_Listview> {
 
   @override
   Widget build(BuildContext context) {
-    print(items.length.toString() + ' ===');
-    return new Scaffold(
-      backgroundColor: th.bk,
-      body: Container(
-        alignment: Alignment.bottomRight,
-        color: th.bk,
+
+    return SafeArea(
+      child: new Scaffold(
+        backgroundColor: th.bk,
+        body: Container(
+          alignment: Alignment.bottomRight,
+          color: th.bk,
 //        height: 300,
 //        width: MediaQuery.of(context).size.width *0.74,
-        child: Column(
-          children: <Widget>[
-            getAppBarUI(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                onChanged: (value) {
-                  filterSearchResults(value);
-                },
-                controller: editingController,
-                style: TextStyle(
-                  color: th.pr,
+          child: Column(
+            children: <Widget>[
+              TopBar(th,widget.title,top: 10.0,height: 0.08,uppercontext: context,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  onChanged: (value) {
+                    filterSearchResults(value);
+                  },
+                  controller: editingController,
+                  style: TextStyle(
+                    color: th.pr,
+                  ),
+                  decoration: InputDecoration(
+                      labelText: "Search",
+                      labelStyle: TextStyle(
+                        color: th.pr,
+                      ),
+                      hintText: "Search",
+                      hintStyle: TextStyle(
+                        color: th.pr,
+                      ),
+                      prefixIcon: Icon(Icons.search),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: th.pr),
+                          borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: th.pr),
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)))),
                 ),
-                decoration: InputDecoration(
-                    labelText: "Search",
-                    labelStyle: TextStyle(
-                      color: th.pr,
-                    ),
-                    hintText: "Search",
-                    hintStyle: TextStyle(
-                      color: th.pr,
-                    ),
-                    prefixIcon: Icon(Icons.search),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: th.pr),
-                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: th.pr),
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
-            ),
-            Expanded(
-              child: FutureBuilder(
-                    future: dropdown.getListview(context,widget , widget.grandparent),
-                  builder: (context, snapshot) {
-                    if(snapshot.hasData)
-                      {
-                        if(snapshot.data.length==0){
-                          return Text("No Data Foundss");
+              Expanded(
+                child: FutureBuilder(
+                      future: dropdown.getListview(context,widget , widget.grandparent,th),
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData)
+                        {
+                          if(snapshot.data.length==0){
+                            return Text("No Data Foundss");
+
+                          }
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return  snapshot.data[index];
+                            },
+                          );
+
 
                         }
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            print("object");
-                            return  snapshot.data[index];
-                          },
-                        );
+if(snapshot.data==null){
+  return Text('NO RECORD FOUND',style: TextStyle(color: th.pr));
 
+}
 
-                      }
-
-
-                    return ModalProgressHUD(
-                      inAsyncCall: true,
-                      child: Container(height: 12,
-                      ),
-                    );
-                  }
+                      return ModalProgressHUD(
+                        inAsyncCall: true,
+                        child: Container(height: 12,
+                        ),
+                      );
+                    }
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -146,10 +152,10 @@ class _Seacrable_ListviewState extends State<Seacrable_Listview> {
       height: 150,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Hexcolor("#F5F5F5"),
+          color: HexColor("#F5F5F5"),
           width: 2,
         ),
-        color: Hexcolor('#256CD0'),
+        color: HexColor('#256CD0'),
 //                    borderRadius: const BorderRadius.only(
 //                      bottomLeft: Radius.circular(32.0),
 //                    ),

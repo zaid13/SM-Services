@@ -24,6 +24,8 @@ class EmpAbsenceAssignments {
   static final Company = 'CompanyCode';
   static final mobid = 'mobid';
   static final defaultvalue = 'defaultvalue';
+  static final levdsc = 'levdsc';
+
 
 
   // make this a singleton class
@@ -62,7 +64,8 @@ $levenc int    ,
 $cmpidd int    ,
 $Company nvarchar  ,
 $mobid varchar DEFAULT "${Random().nextInt(10000000).toString()+DateTime.now().millisecondsSinceEpoch.toString()}" ,
-$defaultvalue  nvarchar
+$defaultvalue  nvarchar,
+$levdsc nvarchar
 
   )
 

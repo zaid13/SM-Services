@@ -94,7 +94,7 @@ deleteEvent() async {
   await vacationEntryType.deleteall();
   await employeeAbsenceCodeAssignment.deleteall();
   // await menu.deleteall();
-  // await absence_Transaction.deleteall();
+  await absence_Transaction.deleteall();
 
 
 await  eb_prllevtrx_status  .deleteall();

@@ -16,6 +16,11 @@ class EmployeeAbsenceCodeAssignment {
   static final defaultvalue = 'defaultvalue';
   static final lvtidd = 'lvtidd';
 
+  static final empidd = 'empidd';
+  static final empcod = 'empcod';
+  static final levdsc = 'levdsc';
+
+
 
 
   EmployeeAbsenceCodeAssignment._privateConstructor();
@@ -45,7 +50,12 @@ $lvccod  nvarchar ,
 $lvcidd int  ,
 $recidd int  ,
 $defaultvalue  nvarchar,
-$lvtidd int
+$lvtidd int ,
+$empidd  nvarchar,
+$empcod nvarchar ,
+$levdsc nvarchar  
+
+
 
   )
 

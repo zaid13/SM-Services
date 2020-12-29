@@ -37,6 +37,11 @@ class Eb_prllevtrx_status {
   static final syncdate= 'syncdate';
 
 
+  static final ApprovedByUserIDName= 'ApprovedByUserIDName';
+  static final MainApproverUserIDName= 'MainApproverUserIDName';
+
+
+
 
 
 
@@ -92,9 +97,12 @@ $cmpidd int,
 $Company nvarchar,
 $seq int,
 $syncstatus int default 0 ,
-$mobid int ,
+$mobid varchar ,
 $operation text ,
-$syncdate int
+$syncdate int , 
+$MainApproverUserIDName text ,
+$ApprovedByUserIDName text 
+
 
   )
 
@@ -120,9 +128,34 @@ $syncdate int
   }
 //  EmployeeAbsenceCodeAssignment
 
-  Future<List<Map<String, dynamic>>> queryonlyRows(t, String str) async {
+  Future<List<Map<String, dynamic>>> queryonlyRows(t, String str, l,String col1, m,String  col2 ) async {
     Database db = await instance.database;
-    return await db.rawQuery("SELECT * FROM ${table} WHERE ${str} Like ${t} ;");
+    return await db.rawQuery("SELECT * FROM ${table} WHERE  ( (${str} = ${t} ) AND (${col1} = ${l} ) AND (${col2} = ${m} ) ) ;");
+  }
+  Future<List<Map<String, dynamic>>> queryonlyRows2var(t,  str ) async {
+    Database db = await instance.database;
+    return await db.rawQuery("SELECT * FROM ${table}      WHERE   (${t} = '${str}' )  ORDER BY  ${Eb_prllevtrx_status.seq} ASC  , ${Eb_prllevtrx_status.RequestStatusID} ASC  ;");
+  }
+
+
+  Future<List<Map<String, dynamic>>> queryMaxandOnlyRows(str) async {
+    Database db = await instance.database;
+
+    // SELECT id, MAX(rev)
+    // FROM YourTable
+    // GROUP BY id
+    return await db.rawQuery("SELECT MAX($str) FROM ${table}  ;");
+  }
+
+  Future<List<Map<String, dynamic>>> queryonlyRowsWith5_var(String str,t ,str1,t1,str2,t2 ,str3,t3 ,str4 ,t4 ,str5,t5 ) async {
+
+    Database db = await instance.database;
+
+    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ( (${str} = '${t}')  AND ( ${str1} = '${t1}') AND  (${str2} = '${t2}') AND (${str3} = '${t3}') AND (${str4} = '${t4}') AND (${str5} = '${t5}')  ) ;");
+
+
+
+    return res;
   }
 
   // All of the methods (insert, query, update, delete) can also be done using
@@ -143,9 +176,12 @@ $syncdate int
 
   // Deletes the row specified by the id. The number of affected rows is
   // returned. This should be 1 as long as the row exists.
-  Future<int> delete(int id) async {
-//    Database db = await instance.database;
-//    return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
+  Future<int> delete(String str, String t) async {
+   Database db = await instance.database;
+    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} = '${t}' ");
+
+    return 1;
+
   }
 
   Future<int> deleteall() async {

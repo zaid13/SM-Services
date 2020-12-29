@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -37,7 +37,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -82,7 +82,7 @@ class DD_3     {
 
   }
 
-  getListview(context, widget,body) async {
+  getListview(context, widget,body,th) async {
 
 
     List ls = await getPrjD3.queryonlyRows_2col(
@@ -101,10 +101,10 @@ class DD_3     {
     int index =0;
 
     ls.forEach((element) {
-      print(element);
+
       index++;
       widlist.add(Container(
-        color: index % 2==0 ?Colors.white: Day().bk,
+        color: th.bk,
         child: FlatButton(
           onPressed: () {
             widget.parent.setState(() {
@@ -127,8 +127,8 @@ class DD_3     {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(element[ProjectD3.prjdtlcod]),
-                        Text(element[ProjectD3.description]),
+                        Text(element[ProjectD3.prjdtlcod],style: TextStyle(color: th.pr)),
+                        Text(element[ProjectD3.description],style: TextStyle(color: th.pr)),
 
                       ],
                     )

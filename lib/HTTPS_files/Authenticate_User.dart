@@ -21,8 +21,7 @@ validateId(userid , userpass  ,context) async {
    r= await get(Validator  ,
         headers: <String, String>{'authorization': basicAuth});
 
-   print(Validator);
-   print(r);
+
 
 
   } on Exception catch (_) {
@@ -31,7 +30,7 @@ validateId(userid , userpass  ,context) async {
    await SMTP_Email("USER NOT FOUND");
 
     return null;
-    print("throwing new error");
+
     throw Exception("Error on server");
   }
 

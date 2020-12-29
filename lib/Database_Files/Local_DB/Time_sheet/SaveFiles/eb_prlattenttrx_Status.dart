@@ -117,6 +117,17 @@ $mobid varchar
   }
 //  EmployeeAbsenceCodeAssignment
 
+  Future<List<Map<String, dynamic>>> queryonlyRowsWith5_var(String str,t ,str1,t1,t2 ,str2,t3 ,str3,t4 ,str4 ) async {
+
+    Database db = await instance.database;
+
+    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} = '${t}'  AND  ${str1} = '${t1}' AND  ${str2} = '${t2}' AND ${str3} = '${t3}' AND ${str4} = '${t4}'");
+
+
+
+    return res;
+  }
+
   Future<List<Map<String, dynamic>>> queryonlyRows(t, String str) async {
 
     Database db = await instance.database;

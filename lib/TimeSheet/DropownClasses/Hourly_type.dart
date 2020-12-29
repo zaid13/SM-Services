@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -70,7 +70,7 @@ class Hourly_type     {
 
 
 
-  getListview(context, widget,body ,) async {
+  getListview(context, widget,body ,th) async {
 
 
     List ls = await getPrjD1.queryAllRows();
@@ -82,7 +82,7 @@ class Hourly_type     {
     int index =0;
 
     ls.forEach((element) {
-      print(element);
+
       index++;
       widlist.add(Container(
         color: index % 2==0 ?Colors.white:Colors.transparent,
@@ -110,8 +110,8 @@ class Hourly_type     {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(element[HourTypes.hourtypecode]),
-                        Text(element[HourTypes.hourtypedescription]),
+                        Text(element[HourTypes.hourtypecode],style: TextStyle(color: th.pr)),
+                        Text(element[HourTypes.hourtypedescription],style: TextStyle(color: th.pr)),
 
                       ],
                     )

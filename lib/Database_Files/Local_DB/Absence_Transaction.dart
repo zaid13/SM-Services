@@ -52,6 +52,12 @@ class Absence_Transaction {
   static final syncstatus= 'syncstatus';
   static final syncdate= 'syncdate';
   static final operation= 'operation';
+  static final   TransRemarks= 'TransRemarks';
+
+  static final   leavedesc= 'leavecodedescription';
+  static final   leavetypedesc= 'leavetypedescription';
+  static final   entrydesc= 'entryTypecode';
+  static final   name= 'employeeName';
 
 
   Absence_Transaction._privateConstructor();
@@ -119,7 +125,13 @@ class Absence_Transaction {
   $mobid text  ,
   $syncstatus int ,
   $operation  TEXT ,
-  $syncdate int 
+  $syncdate int ,
+  $TransRemarks nvarchar ,
+  $name nvarchar ,
+  $leavedesc nvarchar ,
+  $leavetypedesc nvarchar ,
+  $entrydesc nvarchar 
+  
 
   )
           
@@ -150,7 +162,7 @@ class Absence_Transaction {
     Database db = await instance.database;
 
 
-    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} like '${t}' ");
+    var res = await db.rawQuery("SELECT * FROM ${table} WHERE ${str} = '${t}' ");
 
 
 

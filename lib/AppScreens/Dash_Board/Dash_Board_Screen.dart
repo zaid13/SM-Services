@@ -1,9 +1,12 @@
   import 'package:flutter/cupertino.dart';
   import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
   import 'package:hexcolor/hexcolor.dart';
   import 'package:intl/intl.dart';
   import 'package:modal_progress_hud/modal_progress_hud.dart';
   import 'package:sm_service/App_Initialization/App_classes/Tab_Icons.dart';
+  import 'package:sm_service/App_Initialization/App_vatiables.dart';
+
   import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
   import 'package:sm_service/App_Initialization/App_theme/App_theme.dart';
   import 'package:sm_service/Database_Files/Local_DB/DashBoard_DB/NotificationCount.dart';
@@ -22,7 +25,7 @@ class _DashBoardWrapperState extends State<DashBoardWrapper>
     with TickerProviderStateMixin {
   AnimationController animationController;
 
-  List<TabIconData> tabIconsList = TabIconData.tabIconsList;
+//  List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
   Widget tabBody = Container(
     color: FintnessAppTheme.background,
@@ -30,11 +33,11 @@ class _DashBoardWrapperState extends State<DashBoardWrapper>
 
   @override
   void initState() {
-
-    tabIconsList.forEach((TabIconData tab) {
-      tab.isSelected = false;
-    });
-    tabIconsList[0].isSelected = true;
+    //
+    // tabIconsList.forEach((TabIconData tab) {
+    //   tab.isSelected = false;
+    // });
+    // tabIconsList[0].isSelected = true;
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
@@ -52,24 +55,26 @@ class _DashBoardWrapperState extends State<DashBoardWrapper>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: FintnessAppTheme.background,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: FutureBuilder<bool>(
-          future: getData(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox();
-            } else {
-              return Stack(
-                children: <Widget>[
-                  tabBody,
+    return SafeArea(
+      child: Container(
+        color: FintnessAppTheme.background,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: FutureBuilder<bool>(
+            future: getData(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (!snapshot.hasData) {
+                return const SizedBox();
+              } else {
+                return Stack(
+                  children: <Widget>[
+                    tabBody,
 
-                ],
-              );
-            }
-          },
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -283,7 +288,7 @@ class DashBoardState extends State<DashBoard>
                 ),
               ) ,
 
-              Hexcolor('#3C86F5').withOpacity(0.15) ,Hexcolor('#3C86F5'),Hexcolor('#3C86F5').withOpacity(0.2) );
+              HexColor('#3C86F5').withOpacity(0.15) ,HexColor('#3C86F5'),HexColor('#3C86F5').withOpacity(0.6) );
         }
         else{
           return SizedBox(
@@ -335,7 +340,7 @@ class DashBoardState extends State<DashBoard>
                   ),
                 ) ,
 
-                Hexcolor('EE9450').withOpacity(0.15),Hexcolor('#EE9460'),Hexcolor('#EE9460').withOpacity(0.2));
+                HexColor('EE9450').withOpacity(0.15),HexColor('#EE9460'),HexColor('#EE9460').withOpacity(0.7));
           }
           else{
             return SizedBox(
@@ -365,6 +370,12 @@ class DashBoardState extends State<DashBoard>
                   snapshot.data[ScheduledAbsence.ToTime].toString(),style: TextStyle(fontSize: 18,fontWeight :FontWeight.w500));
 
             }
+            // GoogleFonts.Arial(
+            //
+            // );
+            // GoogleFonts.Rubik();
+
+
 
             return                    gettile("Next Schedule Absence", Icons.calendar_today ,
 
@@ -388,7 +399,7 @@ class DashBoardState extends State<DashBoard>
                   ),
                 ) ,
 
-                Hexcolor('#CC8FE2').withOpacity(0.15) , Hexcolor('#CC8FE2'), Hexcolor('#CC8FE2').withOpacity(0.2) );
+                HexColor('#CC8FE2').withOpacity(0.15) , HexColor('#CC8FE2'), HexColor('#CC8FE2').withOpacity(0.9) );
           }
           if(snapshot.data==null){
             return  gettile("Next Schedule Absence", Icons.calendar_today ,
@@ -412,7 +423,7 @@ class DashBoardState extends State<DashBoard>
                   ),
                 ) ,
 
-                Hexcolor('#CC8FE2').withOpacity(0.15) , Hexcolor('#CC8FE2'), Hexcolor('#CC8FE2').withOpacity(0.2) );
+                HexColor('#CC8FE2').withOpacity(0.15) , HexColor('#CC8FE2'), HexColor('#CC8FE2').withOpacity(0.9) );
           }
           else{
             return SizedBox(
@@ -442,9 +453,7 @@ class DashBoardState extends State<DashBoard>
             return ListView.builder(
               controller: scrollController,
               padding: EdgeInsets.only(
-                top: AppBar().preferredSize.height +
-                    MediaQuery.of(context).padding.top +
-                    70,
+                top: MediaQuery.of(context).padding.top ,
                 bottom: 62 + MediaQuery.of(context).padding.bottom,
               ),
               itemCount:     listViews.length,
@@ -463,89 +472,52 @@ class DashBoardState extends State<DashBoard>
 
     Widget getAppBarUI() {
       return Container(
-        height: 150,
-        decoration: BoxDecoration(
-
-          border:  Border.all(
-            color: th.pr,
-            width: 2,
-          ),
-
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: FintnessAppTheme.grey
-                    .withOpacity(0.4 * topBarOpacity),
-                offset: const Offset(1.1, 1.1),
-                blurRadius: 10.0),
-          ],
-        ),
-        child: Column(
+        height:topbarHeight,
+        width: MediaQuery.of(context).size.width,
+        color:HexColor('#2F3840'),
+        child: Stack(
           children: <Widget>[
+            Positioned(
+              top:38,
+              left: 60,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Dashboard',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
 
-            Expanded(
-              child: Container(
-                color:Hexcolor('#256CD0'),
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      color:Hexcolor('#256CD0'),
-                      child: Image.asset('assets/topheaderblue.png'
-                        ,fit: BoxFit.fill,
-                        width: MediaQuery.of(context).size.width,
-                        height: 150
-                        ,
+                      fontFamily: FintnessAppTheme.fontName,
+                      fontWeight: FontWeight.w700,
+                      fontSize: topbarTitleSize ,
+                      letterSpacing: 1.2,
+                      color: Colors.white,
 
-
-                      ),
                     ),
+                  ),
 
+                  Text(
+                    '',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
 
+                      fontFamily: FintnessAppTheme.fontName,
+                      fontWeight: FontWeight.w100,
+                      fontSize: 20 ,
+                      letterSpacing: 1.2,
+                      color: Colors.white,
 
-                    Positioned(
-                      top:35 ,
-                      left: 50,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Dashboard',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-
-                              fontFamily: FintnessAppTheme.fontName,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 30 ,
-                              letterSpacing: 1.2,
-                              color: Colors.white,
-
-                            ),
-                          ),
-
-                          Text(
-                            '',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-
-                              fontFamily: FintnessAppTheme.fontName,
-                              fontWeight: FontWeight.w100,
-                              fontSize: 20 ,
-                              letterSpacing: 1.2,
-                              color: Colors.white,
-
-                            ),
-                          ),
-
-                        ],
-                      ),
                     ),
+                  ),
 
-
-                  ],
-
-                ),
+                ],
               ),
-            )
+            ),
+
+
           ],
+
         ),
       );
     }
@@ -555,18 +527,19 @@ class DashBoardState extends State<DashBoard>
 
 
 
-    return Container(
-      color: th.bk,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            getMainListViewUI(),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
-          ],
+    return SafeArea(
+      child: Container(
+        color: th.bk,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Column(
+            children: <Widget>[
+              getAppBarUI(),
+              Expanded(child: getMainListViewUI()),
+
+
+            ],
+          ),
         ),
       ),
     );

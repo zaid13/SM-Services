@@ -98,7 +98,7 @@ class _Detail_FormState extends State<Detail_Form> {
 
 
       ls.forEach((element) {
-      print(element);
+
 
         dropdown.add(Hourly_type(element[HourTypes.hourtypecode], "", "",element[HourTypes.hrtidd].toString(), ""));
       });
@@ -182,10 +182,8 @@ else if(widget.sc==Screen_type.Hour_Premium){
     {
       int counter = 0;
       List demo =await  timesheet_hour.queryAllRows();
-      print(widget.formId);
-      demo.forEach((element) {
-        print(element);
-      });
+
+
 
       await timesheet_hour.deleteonly( widget.formId, Timesheet_Hour.mobid   );
 
@@ -469,7 +467,7 @@ class ListTile_Detail extends StatelessWidget {
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(
-                                      width: 2.0, color: Hexcolor('#DAE0F9')))),
+                                      width: 2.0, color: HexColor('#DAE0F9')))),
                           padding: EdgeInsets.only(bottom: 17, top: 10),
                           child: Text(
                             str,
@@ -489,7 +487,7 @@ class ListTile_Detail extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
-                              width: 2.0, color: Hexcolor('#DAE0F9')))),
+                              width: 2.0, color: HexColor('#DAE0F9')))),
                   child: TextField(
                     controller: parent.value_txt_xtrl[num],
                     decoration: InputDecoration(hintText: "Value"),

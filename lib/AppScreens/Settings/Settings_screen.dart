@@ -3,6 +3,7 @@ import 'package:custom_switch/custom_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:sm_service/AppScreens/Form_Screen/TopBar.dart';
 import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_theme/App_theme.dart';
 import 'package:sm_service/App_Initialization/App_vatiables.dart';
@@ -78,110 +79,164 @@ class _SettingsState extends State<Settings> {
           child: Column(
             children: <Widget>[
 
+              TopBar(th,Screen_type.Setting,top: 19.0,height: 0.09,),
 
 
-              getAppBarUI(),
               Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child:Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: ListView(
-                      controller: scrollController,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child:Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: ListView(
+                            controller: scrollController,
 
 
-                      children: <Widget>[
+                            children: <Widget>[
 
-                        gettextbox  ('Autosync'),
+                              gettextbox  ('Autosync'),
+                              textboxrow('AutoSync Delay',syncDelayInput),
+                              getswithforday  ('Nigh Mode'),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15,right: 0,top: 8,bottom: 8),
 
-                        textboxrow('AutoSync Delay',syncDelayInput),
-                        getswithforday  ('Nigh Mode'),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+
+                                    Text("Create DB Objects",
+                                      style: TextStyle(color: th.pr,fontSize: 20),
+                                    ),
+                                    FlatButton(
 
 
+                                        onPressed: () async {
 
-                      ],
+                                      setState(() {
+                                        isloading = true;
+
+                                      });
+
+                                      bool isinternet =    await AutoSync();
+                                      setState(() {
+                                        isloading = false;
+
+                                      });
+
+                                      if(!isinternet){
+                                        CoolAlert.show(
+                                          context: context,
+                                          type: CoolAlertType.error,
+                                        );
+
+
+                                      }
+                                      else{
+
+                                        CoolAlert.show(
+                                          context: context,
+                                          type: CoolAlertType.success,
+                                        );
+
+                                      }
+
+
+                                    },
+
+                                      child: Icon(Icons.cloud_download,size: 45,color: th.pr,)),
+                                  ],
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+
+                      ),
                     ),
-                  ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color:  HexColor(greyTextcol),
+                          border: Border.all(
+                            color: HexColor(greyTextcol),
+                          ),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(50) , topRight:Radius.circular(50)  )
+                      ),
 
+                      alignment: Alignment.bottomCenter,
+
+                      height: 70,
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FlatButton(onPressed: () async {
+
+                            setState(() {
+                              isloading = true;
+
+                            });
+                            await deleteEvent();
+                            setState(() {
+                              isloading = false;
+
+                            });
+                            showDialog(context: context,builder:(context) {
+                              return AlertDialog(
+                                title: Text("Deleted"),
+
+                              );
+
+
+                            },);
+                          },
+
+                            child: Image.asset('assets/bottomicon/delete.png',height: 50,),),
+                          FlatButton(onPressed: () async {
+
+                            setState(() {
+                              isloading = true;
+
+                            });
+
+                            bool isinternet =    await AutoSync();
+                            setState(() {
+                              isloading = false;
+
+                            });
+
+                            if(!isinternet){
+                              CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.error,
+                              );
+
+
+                            }
+                            else{
+
+                              CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.success,
+                              );
+
+                            }
+
+
+                          },
+
+                            child: Image.asset('assets/bottomicon/sync.png',height: 50,),),
+
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
 
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(50) , topRight:Radius.circular(50)  )
-                ),
 
-                alignment: Alignment.bottomCenter,
-
-                height: 70,
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FlatButton(onPressed: () async {
-
-                      setState(() {
-                        isloading = true;
-
-                      });
-                      await deleteEvent();
-                      setState(() {
-                        isloading = false;
-
-                      });
-                      showDialog(context: context,builder:(context) {
-                        return AlertDialog(
-                          title: Text("Deleted"),
-
-                        );
-
-
-                      },);
-                    },
-
-                      child: Image.asset('assets/bottomicon/delete.png',height: 50,),),
-                    FlatButton(onPressed: () async {
-
-                      setState(() {
-                        isloading = true;
-
-                      });
-
-               bool isinternet =    await AutoSync();
-                      setState(() {
-                        isloading = false;
-
-                      });
-
-                      if(!isinternet){
-                          CoolAlert.show(
-                            context: context,
-                            type: CoolAlertType.error,
-                          );
-
-
-                      }
-                      else{
-
-                        CoolAlert.show(
-                          context: context,
-                          type: CoolAlertType.success,
-                        );
-
-                      }
-
-
-                    },
-
-                      child: Image.asset('assets/bottomicon/sync.png',height: 50,),),
-
-                  ],
-                ),
-              )
             ],
           ),
         ),
@@ -345,7 +400,7 @@ class _SettingsState extends State<Settings> {
           color: th.pr,
           width: 2,
         ),
-        color:  Hexcolor('#256CD0'),
+        color:  HexColor('#256CD0'),
 //                    borderRadius: const BorderRadius.only(
 //                      bottomLeft: Radius.circular(32.0),
 //                    ),

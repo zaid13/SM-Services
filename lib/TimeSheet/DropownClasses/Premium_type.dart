@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -68,7 +68,7 @@ class Premium_type     {
 
 
 
-  getListview(context, widget,body) async {
+  getListview(context, widget,body,th) async {
 
 
     List ls = await getPrjD1.queryonlyRows('1', Premium_type_db.type);
@@ -79,7 +79,7 @@ class Premium_type     {
     int index =0;
 
     ls.forEach((element) {
-      print(element);
+
       index++;
       widlist.add(Container(
         color: index % 2==0 ?Colors.white:Colors.transparent,
@@ -106,8 +106,8 @@ class Premium_type     {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(element[Premium_type_db.premtype]),
-                        Text(element[Premium_type_db.premtypedescription]),
+                        Text(element[Premium_type_db.premtype],style: TextStyle(color: th.pr)),
+                        Text(element[Premium_type_db.premtypedescription],style: TextStyle(color: th.pr)),
 
                       ],
                     )
@@ -123,7 +123,7 @@ class Premium_type     {
     return widlist;
   }
 
-  getListviewforSub(context, widget,body) async {
+  getListviewforSub(context, widget,body,th) async {
 
 
     List ls = await getPrjD1.queryonlyRows('2', Premium_type_db.type);
@@ -134,7 +134,7 @@ class Premium_type     {
     int index =0;
 
     ls.forEach((element) {
-      print(element);
+
       index++;
       widlist.add(Container(
         color: index % 2==0 ?Colors.white:Colors.transparent,
@@ -161,8 +161,8 @@ class Premium_type     {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(element[Premium_type_db.premtype]),
-                        Text(element[Premium_type_db.premtypedescription]),
+                        Text(element[Premium_type_db.premtype],style: TextStyle(color: th.pr)),
+                        Text(element[Premium_type_db.premtypedescription],style: TextStyle(color: th.pr)),
 
                       ],
                     )

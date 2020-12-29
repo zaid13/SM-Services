@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -45,7 +45,7 @@ class ID_2   {
 
   final independent_dropDown_2 = Independent_dropDown_2.instance;
 
-  getListview(context, widget,body) async {
+  getListview(context, widget,body,th) async {
 
 
     List ls = await independent_dropDown_2.queryAllRows();
@@ -59,7 +59,7 @@ class ID_2   {
       print(element);
       index++;
       widlist.add(Container(
-        color: index % 2==0 ?Colors.white: Day().bk,
+        color: th.bk,
         child: FlatButton(
           onPressed: () {
             widget.parent.setState(() {
@@ -79,8 +79,8 @@ class ID_2   {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(element[Independent_dropDown_2.code]),
-                        Text(element[Independent_dropDown_2.description]),
+                        Text(element[Independent_dropDown_2.code],style: TextStyle(color: th.pr),),
+                        Text(element[Independent_dropDown_2.description],style: TextStyle(color: th.pr)),
 
                       ],
                     )

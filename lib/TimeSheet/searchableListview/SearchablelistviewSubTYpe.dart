@@ -141,10 +141,10 @@ class _Seacrable_ListviewForSubmenuState extends State<Seacrable_ListviewForSubm
       height: 150,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Hexcolor("#F5F5F5"),
+          color: HexColor("#F5F5F5"),
           width: 2,
         ),
-        color: Hexcolor('#256CD0'),
+        color: HexColor('#256CD0'),
 //                    borderRadius: const BorderRadius.only(
 //                      bottomLeft: Radius.circular(32.0),
 //                    ),

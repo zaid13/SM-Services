@@ -84,7 +84,7 @@ class DropDown_2{
 
   }
 
-  getListview(context, widget,body) async {
+  getListview(context, widget,body,th) async {
 
 
 
@@ -112,20 +112,23 @@ int index =0;
           });
           Navigator.pop(context);
         },
-        child: Row(
-          children: [
-            Flexible(
-              child: ListTile(
-                  title: Text(element[EmpAbsenceAssignments.lvtcod])
-              ),
-            ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 15,
+          right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(element[EmpAbsenceAssignments.lvtcod],style: TextStyle(color: th.pr)),
+              Text(element[EmpAbsenceAssignments.levdsc],style: TextStyle(color: th.pr))
+
 //                          Flexible(
 //                            child: ListTile(
 //                              title: Text('${items[index]}'),
 //                              subtitle: Text('${items[index]}'),
 //                            ),
 //                          ),
-          ],
+            ],
+          ),
         ),
       ),
     ));

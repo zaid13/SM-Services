@@ -7,74 +7,76 @@ import 'package:sm_service/App_Initialization/App_theme/App_theme.dart';
 import 'package:sm_service/App_Initialization/App_vatiables.dart';
 
 class TopBar extends StatelessWidget {
+  var top;
+  var height;
   theme th ;
+  BuildContext uppercontext;
   var screenType;
-  TopBar(this.th,this.screenType);
+  TopBar(this.th,this.screenType,{this.top,this.height,this.uppercontext});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.15,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: th.pr,
-          width: 2,
+    return Stack(
+      children: [
+        Container(
+height:60,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+
+            color: HexColor('#2F3840'),
+
+          ),
+
         ),
-        color: Hexcolor('#256CD0'),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: FintnessAppTheme.grey.withOpacity(0.4 ),
-              offset: const Offset(1.1, 1.1),
-              blurRadius: 10.0),
-        ],
-      ),
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                Image.asset(
-                  'assets/topheaderblue.png',
-                  fit: BoxFit.fill,
-                  width: MediaQuery.of(context).size.width,
-                  height: 150,
-                ),
-                Positioned(
-                  top: 40,
-                  left: 60,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        screenType.toString().replaceAll("Screen_type.", '').replaceAll('_', ' '),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: FintnessAppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 30,
-                          letterSpacing: 1.2,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: FintnessAppTheme.fontName,
-                          fontWeight: FontWeight.w100,
-                          fontSize: 20,
-                          letterSpacing: 1.2,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+        Positioned(
+          top: top?? 16,
+          left: uppercontext!=null?0:60,
+          child: Column(
+
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment:MainAxisAlignment.start,
+
+            children: <Widget>[
+              Row(
+mainAxisAlignment:MainAxisAlignment.start,
+
+                children: [
+                  uppercontext!=null?IconButton(
+                    icon: Icon(Icons.arrow_back,color: Colors.white,),
+                    onPressed: (){
+                      Navigator.pop(uppercontext);
+
+                    },
+                  ):Container(height: 1,width: 1,),
+
+
+                  Text(
+                    screenType.toString().replaceAll("Screen_type.", '').replaceAll('_', ' '),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: FintnessAppTheme.fontName,
+                      fontWeight: FontWeight.w700,
+                      fontSize: topbarTitleSize,
+                      letterSpacing: 1.2,
+                      color: Colors.white,
+                    ),
                   ),
+                ],
+              ),
+              Text(
+                '',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: FintnessAppTheme.fontName,
+                  fontWeight: FontWeight.w100,
+                  fontSize: 20,
+                  letterSpacing: 1.2,
+                  color: Colors.white,
                 ),
-              ],
-            ),
-          )
-        ],
-      ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

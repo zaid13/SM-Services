@@ -41,7 +41,7 @@ class _Drop_Down_MasterState extends State<Drop_Down_Master> {
         showDialog(
             context: context,
             builder: (context) => Seacrable_Listview(
-                th,
+                    th,
                 widget.dropDowns.dropDown_1.templateDropDown,
                 this,
                 widget.parent,widget.dropDowns.dropDown_1));
@@ -133,7 +133,7 @@ class _Drop_Down_MasterState extends State<Drop_Down_Master> {
             child: Container(
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(width: 2.0, color: Hexcolor('#DAE0F9')),
+                  bottom: BorderSide(width: 2.0, color: HexColor('#DAE0F9')),
                 ),
               ),
               child: Padding(
@@ -143,7 +143,7 @@ class _Drop_Down_MasterState extends State<Drop_Down_Master> {
                   padding: EdgeInsets.all(0),
                   onPressed: () {
                     fnction();
-                    print("clicked press");
+
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

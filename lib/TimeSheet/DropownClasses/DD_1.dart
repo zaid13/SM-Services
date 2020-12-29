@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -45,13 +45,13 @@ class DD_1     {
   final getPrjD1 = ProjectD1.instance;
 
 reset(lowerdrop,lower1 ,lower2){
-  print('reset called from drop down 1 ');
+
   lowerdrop.reset(lower1,lower2);
   DropDownCode =null;
   DropDownValue =DefaultVAl;
 }
 
-  getListview(context, widget,body) async {
+  getListview(context, widget,body,th) async {
 
 
     List ls = await getPrjD1.queryonlyRows(
@@ -66,10 +66,10 @@ reset(lowerdrop,lower1 ,lower2){
     int index =0;
 
     ls.forEach((element) {
-      print(element);
+
       index++;
       widlist.add(Container(
-        color: index % 2==0 ?Colors.white: Day().bk,
+        color: th.bk,
         child: FlatButton(
           onPressed: () {
             widget.parent.setState(() {
@@ -96,8 +96,8 @@ reset(lowerdrop,lower1 ,lower2){
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(element[ProjectD1.prjtypcod]),
-                        Text(element[ProjectD1.description]),
+                        Text(element[ProjectD1.prjtypcod],style: TextStyle(color: th.pr)),
+                        Text(element[ProjectD1.description],style: TextStyle(color: th.pr)),
 
                       ],
                     )

@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sm_service/App_Initialization/App_vatiables.dart';
 import 'package:sm_service/Database_Files/Inserting_All_DB.dart';
+import 'package:sm_service/Database_Files/Local_DB/Absence_Transaction.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Get_project_dropdown/ProjectD1.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Get_project_dropdown/ProjectD2.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Get_project_dropdown/ProjectD3.dart';
@@ -16,6 +17,7 @@ import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Independent_Dropdo
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/Independent_Dropdowns/Position.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/PremiumType/PremiumType_db.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/TimeSheetParameter.dart';
+import 'package:sm_service/Database_Files/Server_Files/Eb_prllevtrx_status.dart';
 import 'package:sm_service/HTTPS_files/Sync_Files/Dash_Board/GetVacationBalance4Dashboard.dart';
 import 'package:sm_service/HTTPS_files/Sync_Files/Dash_Board/NextScheduledAbsence4Dashboard.dart';
 import 'package:sm_service/HTTPS_files/Sync_Files/Dash_Board/NotificationCount.dart';
@@ -35,8 +37,7 @@ iningetmenu() async {
       headers: <String, String>{'authorization': basicAuth});
   final json=JSON.jsonDecode(r.body);
 
-print(GetMenu);
-  print(r);
+
 
   if(r.statusCode==200  && json.length>0){
 
@@ -81,7 +82,6 @@ validateId(userid , userpass) async {
 
 }
 
-
 getDataForMobidapiAsMap(String  Username ,String  Password  , String link ,String mobid) async {
 
 
@@ -103,8 +103,6 @@ getDataForMobidapiAsMap(String  Username ,String  Password  , String link ,Strin
   return ls.first;
 
 }
-
-
 
 getapiAsMap(String  Username ,String  Password  , String link ,String userid,formtype) async {
 
@@ -130,9 +128,6 @@ getapiAsMap(String  Username ,String  Password  , String link ,String userid,for
   return maplis;
 }
 
-
-
-
 getapi(String  Username ,String  Password  , String link ,String userid,formtype) async {
 
 
@@ -145,8 +140,7 @@ getapi(String  Username ,String  Password  , String link ,String userid,formtype
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
-  print(link);
-
+print(link);
   Response r = await get(link,
       headers: <String, String>{'authorization': basicAuth});
 
@@ -154,7 +148,7 @@ getapi(String  Username ,String  Password  , String link ,String userid,formtype
 
   final json=JSON.jsonDecode(r.body);
   List ls = json ;
-print(ls.length);
+
 
   List maplis = [] ;
   for(var t in ls ){
@@ -167,13 +161,13 @@ print(ls.length);
   return maplis;
 }
 
-
 InsertAbsenceTransactionStatus(mobid) async {
   Map ls = await getDataForMobidapiAsMap(id,pas,GetInsertedAbsenceTransactionStatus ,mobid );
   ls.forEach((key, value) {
   });
   return ls;
 }
+
 InsertedAbsenceTransaction(mobid) async {
 
 
@@ -183,7 +177,6 @@ InsertedAbsenceTransaction(mobid) async {
   });
   return ls;
 }
-
 
 initabsence_Transaction() async {
   insering_allDB dbvar = insering_allDB();
@@ -220,11 +213,13 @@ initabsence_Transaction() async {
 
 
 }
+
 initabsence_Transaction_Status(){
 
 
 
 }
+
 init_current_user() async {
   insering_allDB dbvar = insering_allDB();
 String link  =GetLoggedinEmployee;
@@ -235,7 +230,7 @@ String link  =GetLoggedinEmployee;
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
-  print(link);
+
 
   Response r = await get(link,
       headers: <String, String>{'authorization': basicAuth});
@@ -272,7 +267,7 @@ initemp_master() async {
 
   List ls = await getapi(id,pas,GetEmpList4User ,uid,"3130" );
   ls.forEach((element) {
-
+print(element);
     element.forEach((key, value) {
 
     });
@@ -293,7 +288,6 @@ initemp_master() async {
 
 }
 
-
 initempAbsenceAssignments() async {
 //TODO THERE IS A PROBLEM HERE  ADD DEFAULT VALUE FIELD
   insering_allDB dbvar = insering_allDB();
@@ -307,7 +301,8 @@ initempAbsenceAssignments() async {
     dbvar.insert_EmpAbsenceAssignments(
 
         recidd: element['recidd'] ,cmpidd: element['cmpidd'] ,empcod: element['empcod']  ,company: element['company']
-        ,empidd: element['empidd'] ,lvtcod: element['lvtcod'] ,lvtidd:element['lvtidd']  , defaultvalue: element['defaultvalue']
+        ,empidd: element['empidd'] ,lvtcod: element['lvtcod'] ,lvtidd:element['lvtidd']  , defaultvalue: element['defaultvalue'],
+      levdsc: element['levdsc']
     );
 
 
@@ -315,7 +310,6 @@ initempAbsenceAssignments() async {
 
 
 }
-
 
 initCalendarDetails() async {
 
@@ -333,7 +327,6 @@ initCalendarDetails() async {
 
 
 }
-
 
 initabsenceTypes() async {
 
@@ -394,7 +387,6 @@ initabsenceTypes() async {
 
 }
 
-
 initGetEmployeeAbsenceCodeAssignment() async {
 
   insering_allDB dbvar = insering_allDB();
@@ -406,7 +398,13 @@ initGetEmployeeAbsenceCodeAssignment() async {
 
 
     dbvar.insert_EmployeeAbsenceCodeAssignment(recidd:element['recidd']  ,cmpidd: element['cmpidd'],company: element['company'] ,emplevidd:
-    element['emplevidd'] ,lvccod: element['lvccod']  ,lvcidd: element['lvcidd']  ,defaultvalue: element['defaultvalue'] ,lvtidd: element['ltpidd']  );
+    element['emplevidd'] ,lvccod: element['lvccod']  ,lvcidd: element['lvcidd']  ,defaultvalue: element['defaultvalue'] ,lvtidd: element['ltpidd']  ,
+
+    empcod: element['empcod'] ,
+      empidd: element['empidd'],
+      levdsc: element['levdsc'],
+
+    );
 
 
   });
@@ -434,7 +432,6 @@ initabsenceCodes() async {
 
 }
 
-
 initcalendarDetails() async {
 
   insering_allDB dbvar = insering_allDB();
@@ -453,9 +450,6 @@ initcalendarDetails() async {
 
 
 }
-
-
-
 
 initcalendarShifts() async {
 
@@ -495,8 +489,6 @@ initcalendarHolidays() async {
 
 }
 
-
-
 initabsenceParameters() async {
 
   insering_allDB dbvar = insering_allDB();
@@ -516,7 +508,6 @@ initabsenceParameters() async {
 
 }
 
-
 initVacationEntryType()async{
   insering_allDB dbvar = insering_allDB();
 
@@ -531,7 +522,6 @@ initVacationEntryType()async{
   });
 }
 
-
 intiDash() async {
 
 
@@ -539,6 +529,7 @@ intiDash() async {
   await  initNextScheduledAbsence4Dashboard(id,pas,empid);
   await initGetNotificationCount(id,pas,);
 }
+
 getApi_without_parameters(Username, Password ,link)async{
 
   String username = Username;
@@ -549,7 +540,7 @@ getApi_without_parameters(Username, Password ,link)async{
       headers: <String, String>{'authorization': basicAuth});
 
   final json=JSON.jsonDecode(r.body);
-print(link);
+
 
   List ls = List.from(json)  ;
 if(ls.length>0)
@@ -561,9 +552,10 @@ else {};
 init_timesheet() async {
   insering_allDB dbvar = insering_allDB();
 
-List ls   =   await getApi_without_parameters(  id,pas , GetTimeSheetParameters) ;
+  var mapres    =   await getApi_without_parameters(  id,pas , GetTimeSheetParameters) ;
 
-  Map map = ls.first  ;
+  Map map = mapres.first  ;
+
 
  dbvar . insert_TimeSheetParameter(
 
@@ -603,18 +595,19 @@ List ls   =   await getApi_without_parameters(  id,pas , GetTimeSheetParameters)
 
 
  );
- print(map);
+
 
 return map['${TimeSheetParameter.isprjasgnreqd}'].toString();
 
 }
+
 initemp_master_Timesheet() async {
 
   insering_allDB dbvar = insering_allDB();
 
 
   List ls = await getapi(id,pas,GetEmpList4User ,uid,"3169" );
-  print(ls.length);
+
 
   ls.forEach((element) {
 
@@ -684,7 +677,6 @@ init_ProjectD1(String isprjasgnreqd) async {
 
 }
 
-
 init_ProjectD2(String isprjasgnreqd) async {
   insering_allDB dbvar = insering_allDB();
 
@@ -724,7 +716,6 @@ init_ProjectD2(String isprjasgnreqd) async {
 
 
 }
-
 
 init_ProjectD3(String isprjasgnreqd) async {
   insering_allDB dbvar = insering_allDB();
@@ -768,8 +759,6 @@ init_ProjectD3(String isprjasgnreqd) async {
 
 
 }
-
-
 
 init_ProjectD4(String isprjasgnreqd) async {
   insering_allDB dbvar = insering_allDB();
@@ -832,6 +821,7 @@ init_insert_independent_dropDown_1() async {
 
   });
 }
+
 init_insert_independent_dropDown_2() async {
   insering_allDB dbvar = insering_allDB();
 
@@ -854,7 +844,6 @@ init_insert_independent_dropDown_2() async {
   });
 }
 
-
 init_insert_Premium_type() async {
 
 
@@ -863,12 +852,10 @@ init_insert_Premium_type() async {
   String url = 'http://smemobapi.azurewebsites.net/api/PremiumType/GetAllPrmTypes';
 
 
-print(url);
   List ls =   await getApi_without_parameters(  id,pas , url) ;
 
   ls.forEach((key) {
 
-    print(key);
 
   });
   ls.forEach((element) {
@@ -890,7 +877,6 @@ print(url);
   });
 }
 
-
 init_insert_Hour_type( ) async {
 
 
@@ -901,7 +887,7 @@ init_insert_Hour_type( ) async {
 
 
   List ls =   await getApi_without_parameters(  id,pas , url) ;
-print(url);
+
 
   ls.forEach((element) {
 
@@ -934,3 +920,157 @@ print(url);
 
   });
 }
+
+init_Absence_Transaction( ) async {
+
+
+  insering_allDB dbvar = insering_allDB();
+  final absence_Transaction= Absence_Transaction.instance;
+
+
+
+  List ls =   await getApi_without_parameters(  id,pas , GetAbsenceTransactions4User+uid) ;
+
+
+  ls.forEach((ls) async {
+    Map <String,dynamic>d = {
+
+      "${Absence_Transaction.recordIDD}": ls['RecordIDD'],
+      "${Absence_Transaction.rejoiningDate}": ls['RejoiningDate'],
+      "${Absence_Transaction
+          .transactionNumber}": ls['TransactionNumber'],
+      "${Absence_Transaction.LeaveCode}": ls['LeaveCode'],
+      "${Absence_Transaction.leaveTypeCode}": ls['LeaveTypeCode'],
+      "${Absence_Transaction.calendarDays}": ls['CalendarDays'],
+      "${Absence_Transaction.weekendDays}": ls['WeekendDays'],
+      "${Absence_Transaction.holidays}": ls['Holidays'],
+
+      "${Absence_Transaction.EmployeeUserID}":
+      ls['employeeUserID'],
+
+      "${Absence_Transaction.Status}": ls['Status'],
+      "${Absence_Transaction.NumberOfDays}": ls['NumberOfDays'],
+
+
+
+      "${Absence_Transaction.syncstatus}": 1,
+      "${Absence_Transaction.syncdate}": DateTime
+          .now()
+          .millisecondsSinceEpoch,
+      "${Absence_Transaction.operation}": 'Downloaded',
+
+      "${Absence_Transaction.airTicket}": ls['AirTicket'],
+      "${Absence_Transaction.cashAmount}": ls['CashAmount'],
+
+      "${Absence_Transaction.Company}": ls['Company'],
+      "${Absence_Transaction.dayPercentage}": ls['DayPercentage'],
+      "${Absence_Transaction.employeeIDD}": ls['EmployeeIDD'],
+      "${Absence_Transaction.entryType}": ls['EntryType'],
+      "${Absence_Transaction.fromDate}": ls['FromDate'],
+
+      "${Absence_Transaction.fromTime}": ls['FromTime'],
+      "${Absence_Transaction.hourly}": ls['Hourly'],
+      "${Absence_Transaction.LeaveCodeIDD}": ls['LeaveCodeIDD'],
+      "${Absence_Transaction.leaveSalary}": ls['LeaveSalary'],
+
+
+      "${Absence_Transaction.leaveTypeIDD}": ls['LeaveTypeIDD'],
+      "${Absence_Transaction.leavedays}": ls['Leavedays'],
+      "${Absence_Transaction.cashCheck}": ls['Levadvcash'],
+      //TODO IGNORED
+    //  "${Absence_Transaction.cashAmount}": 'Levmaxcash',  
+//TODO  IGNORED
+//      "${Absence_Transaction.leaveSalary}": 'Levsal',
+      "${Absence_Transaction.offHours}": ls['OffHours'],
+      "${Absence_Transaction.OffMints}": ls['OffMints'],
+      "${Absence_Transaction.perDiem}": ls['PerDiem'],
+      "${Absence_Transaction.remarks1}": ls['Remarks1'],
+      "${Absence_Transaction.remarks2}": ls['Remarks2'],
+      "${Absence_Transaction.RequestDate}": ls['Requestdate'],
+      "${Absence_Transaction.SubmittedByUserID}": ls['SubmittedByUserID'],
+      "${Absence_Transaction.TRX_ID}": ls['TRX_ID'],
+      "${Absence_Transaction.toDate}": ls['ToDate'],
+      "${Absence_Transaction.toTime}": ls['ToTime'],
+      "${Absence_Transaction.TransRemarks}": ls['TransRemarks'],
+      "${Absence_Transaction.WorkflowMasterID}": ls['WorkflowMasterID'],
+      "${Absence_Transaction.cmpidd}": ls['cmpidd'],
+      "${Absence_Transaction.mobid}": ls['mobid'],
+
+
+      "${Absence_Transaction.calendarIDD}": ls['calendarIDD'],
+      "${Absence_Transaction.calendarCode}": ls['calendarCode'],
+      "${Absence_Transaction.entryDate}": ls['entryDate'],
+      "${Absence_Transaction.employeeCode}": ls['employeeCode'],
+
+
+      "${Absence_Transaction.name}": ls[Absence_Transaction.name],
+      "${Absence_Transaction.leavedesc}": ls[Absence_Transaction.leavedesc],
+      "${Absence_Transaction.leavetypedesc}": ls[Absence_Transaction.leavetypedesc],
+      "${Absence_Transaction.entrydesc}": ls[Absence_Transaction.entrydesc],
+
+
+
+    };
+
+    int res = await absence_Transaction.insert(d);
+
+  });
+}
+
+init_insert_Eb_prllevtrx_status( ) async {
+
+
+  insering_allDB dbvar = insering_allDB();
+
+
+
+  List ls =   await getApi_without_parameters(  id,pas , GetAbsenceTransactionStatus4User+uid) ;
+
+
+  ls.forEach((element) {
+
+
+
+
+    dbvar.insert_Eb_prllevtrx_status(
+        syncstatus: 1,
+        operation: 'Downloaded',
+        syncdate: DateTime
+            .now()
+            .millisecondsSinceEpoch,
+        WorkflowMasterID: element['WorkflowMasterID'],
+        mobid: element['mobid'],
+
+
+        Company: element['Company'],
+        cmpidd: element['cmpidd'],
+        ApprovedByUserID: element['ApprovedByUserID'],
+        approvingline: element['groupcoode'],
+        groupcode: element['WorkflowMasterID'],
+        groupidd: element['groupidd'],
+        ID: element['ID'],
+        LeaveTransactionID: element['LeaveTransactionID'],
+        levelcolor: element['levelcolor'],
+        levelversion: element['levelversion'],
+        MainApproverUserID: element['MainApproverUserID'],
+        MappingType: element['MappingType'],
+        Processed: element['Processed'],
+        ProcessedDate: element['ProcessedDate'],
+        Remarks: element['Remarks'],
+        RequestStatusID: element['RequestStatusID'],
+        seq: element['seq'],
+        tag: element['tag'],
+        Transremarks: element['Transremarks'],
+        UpdateDate: element['UpdateDate'],
+        UserLevel: element['UserLevel'],
+        VoidedOnRecall: element['VoidedOnRecall'],
+        WorkflowID: element['WorkflowID'] ,
+        ApprovedByUserIDName: element[Eb_prllevtrx_status.ApprovedByUserIDName],
+        MainApproverUserIDName:element[Eb_prllevtrx_status.MainApproverUserIDName]
+
+
+
+    );
+
+});}
+

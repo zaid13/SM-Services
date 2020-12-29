@@ -3,14 +3,14 @@ import 'package:hexcolor/hexcolor.dart';
 
 class Night{
   Color pr = Colors.white;
-  Color bk = Hexcolor('#202839');
+  Color bk = HexColor('#202839');
 
 }
 class Day{
-  Color pr = Colors.black;
-  Color bk =  Hexcolor("#E4F0FF");
+  Color pr = HexColor('#2F3840');
+  Color bk =  HexColor("#F2F2F2");
 }
-class theme {
-  Color pr = Colors.black;
-  Color bk =  Colors.white;
+class   theme {
+  Color pr = Day().pr;
+  Color bk = Day().bk;
 }

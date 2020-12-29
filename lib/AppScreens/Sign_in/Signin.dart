@@ -19,7 +19,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Duration get loginTime => Duration(milliseconds: 2250);
 
+
   Future<String> _authUser(LoginData data) async{
+    print('3333');
 
 
 
@@ -33,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
-     bool internet_conn =  await syncEvent();
+     bool internet_conn = true;// await syncEvent();
       theme  th= await gettheme();
 
 
@@ -45,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       }
 
-
+///successb log in
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => NavigationHomeScreen_ABSENCE(th),
@@ -57,7 +59,14 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     else{
 
-      return 'Username not exists';
+      if(data.name!=''  &&  data.password==''){        return 'Password is required';}
+      else  if(data.name==''  &&  data.password!=''){        return 'Username is required';}
+      else  if(data.name==''  &&  data.password==''){        return 'Username and password is required';}
+
+
+
+
+      return 'Username or Password is Incorrect';
     }
 
 
@@ -68,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var users ={};
     return Future.delayed(loginTime).then((_) {
       if (!users.containsKey(name)) {
-        return 'Username not exists';
+        return 'Username or Password is Invalid';
       }
       return null;
     });
@@ -86,15 +95,16 @@ class _LoginScreenState extends State<LoginScreen> {
       onLogin: _authUser,
       onSignup: _authUser,
 
+passwordValidator: (a){},
 
       theme: LoginTheme(
 
           titleStyle: TextStyle(fontSize: 26),
 
-          primaryColor:Hexcolor( '#0C408A'),
+          primaryColor:HexColor( '#0C408A'),
 
           buttonTheme:LoginButtonTheme(
-              backgroundColor: Hexcolor( '#0C215F'),
+              backgroundColor: HexColor( '#0C215F'),
           ) ),
 
       onSubmitAnimationCompleted: () async {

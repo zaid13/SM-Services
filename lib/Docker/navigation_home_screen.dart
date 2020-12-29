@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:sm_service/AppScreens/About/About.dart';
 import 'package:sm_service/AppScreens/Dash_Board/Dash_Board_Screen.dart';
 import 'package:sm_service/AppScreens/Listview/ListView.dart';
 import 'package:sm_service/AppScreens/Settings/Settings_screen.dart';
@@ -35,7 +36,7 @@ class NavigationHomeScreen_ABSENCEState extends State<NavigationHomeScreen_ABSEN
 
      Menu menu = Menu.instance;
 
-
+//loading from local db
     List lt = await menu.queryAllRows();
     if(lt==null){
       return false;
@@ -95,6 +96,7 @@ th = widget.thw;
 
     void changeIndex(DrawerIndex drawerIndexdata  , bool showabsence) {
 
+      print(drawerIndex);
       if (drawerIndex != drawerIndexdata) {
         drawerIndex = drawerIndexdata;
         if (drawerIndex == DrawerIndex.dashboard) {
@@ -137,9 +139,11 @@ th = widget.thw;
         }
 
         else if (drawerIndex == DrawerIndex.about) {
+          print('deded');
           setState(() {
-
+            screenView  = About(th);
           });
+
         }
 
         else if (drawerIndex == DrawerIndex.pending) {
@@ -178,45 +182,43 @@ th = widget.thw;
 
 
 
-  return Container(
-  color: AppTheme.nearlyWhite,
-    child: SafeArea(
-    top: false,
-    bottom: false,
-    child: Scaffold(
+  return SafeArea(
+    child: Container(
+    color: AppTheme.nearlyWhite,
+      child: Scaffold(
 
 
-    body:StatefulBuilder(builder:(context, setState) {
-      setState((){
-        th = th;
-      });
-      return FutureBuilder(
-        future: getboolabsencerequest() ,
-        builder: (context, snapshot) {
-          if(snapshot.hasData)
-          return DrawerUserController(
-            th,
-            snapshot.data,
-            screenIndex: drawerIndex,
-            drawerWidth: MediaQuery.of(context).size.width * 0.90,
-            onDrawerCall: (DrawerIndex drawerIndexdata) {
-              changeIndex(drawerIndexdata ,snapshot.data);
-              //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
-            },
-            screenView: screenView,
-            //we replace screen view as we need on navigate starting screens like MyHomePage, HelpScreen, FeedbackScreen, etc...
-          );
-        else{
-          return ModalProgressHUD(inAsyncCall: true, child:Container());
+      body:StatefulBuilder(builder:(context, setState) {
+        setState((){
+          th = th;
+        });
+        return FutureBuilder(
+          future: getboolabsencerequest() ,
+          builder: (context, snapshot) {
+            if(snapshot.hasData)
+            return DrawerUserController(
+              th,
+              snapshot.data,
+              screenIndex: drawerIndex,
+              drawerWidth: MediaQuery.of(context).size.width * 0.90,
+              onDrawerCall: (DrawerIndex drawerIndexdata) {
+                changeIndex(drawerIndexdata ,snapshot.data);
+                //callback from drawer for replace screen as user need with passing DrawerIndex(Enum index)
+              },
+              screenView: screenView,
+              //we replace screen view as we need on navigate starting screens like MyHomePage, HelpScreen, FeedbackScreen, etc...
+            );
+          else{
+            return ModalProgressHUD(inAsyncCall: true, child:Container());
+            }
           }
-        }
-      );
+        );
 
 
-    }  ,),
-    ),
-    ),
-    );
+      }  ,),
+      ),
+      ),
+  );
 
 
   }

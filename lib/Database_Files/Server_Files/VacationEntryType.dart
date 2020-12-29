@@ -1,18 +1,18 @@
 import 'package:sm_service/App_Initialization/Funtions.dart';
 import 'package:sqflite/sqflite.dart';
+
 class VacationEntryType {
 //  static final _databaseName = "MyDatabase.db";
-
 
   static final table = 'VacationEntryType3';
 
   static final ValueSetID = 'ValueSetID';
-  static final text = 'text';   //1
+  static final text = 'text'; //1
   static final value = 'value';
 
   VacationEntryType._privateConstructor();
   static final VacationEntryType instance =
-  VacationEntryType._privateConstructor();
+      VacationEntryType._privateConstructor();
 
   // only have a single app-wide reference to the database
   static Database _database;
@@ -24,7 +24,6 @@ class VacationEntryType {
   }
 
   // this opens the database (and creates it if it doesn't exist)
-
 
   // SQL code to create the database table
   Future onCreate(Database db, int version) async {
@@ -64,12 +63,14 @@ $value nvarchar
     return await db.rawQuery(
         "SELECT * FROM ${table}   WHERE ${str} = ${p}   OR     ${str} = ${q}   OR    ${str} = ${r}  OR  ${str} =  ${o}   ;");
   }
+
   Future<List<Map<String, dynamic>>> queryifandonlyif(
-      String str ,String o ) async {
+      String str, String o) async {
     Database db = await instance.database;
-    return await db.rawQuery(
-        "SELECT * FROM ${table}   WHERE ${str} =  ${o}   ;");
+    return await db
+        .rawQuery("SELECT * FROM ${table}   WHERE ${str} =  '${o}'   ;");
   }
+
   // All of the methods (insert, query, update, delete) can also be done using
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int> queryRowCount() async {

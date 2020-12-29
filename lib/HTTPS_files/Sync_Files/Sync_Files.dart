@@ -31,7 +31,7 @@ syncEvent() async {
   bool c = await checkServerConnection(GetEmployees,id,pas);
 
   if(c == true){
-    print("syncEvent");
+
 
     await deleteEvent();
 
@@ -58,7 +58,8 @@ syncEvent() async {
     await init_insert_Premium_type();
 
     await init_insert_Hour_type();
-
+    await init_insert_Eb_prllevtrx_status();
+    await init_Absence_Transaction();
 
 
 

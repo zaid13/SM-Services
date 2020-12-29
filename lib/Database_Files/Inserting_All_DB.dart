@@ -985,7 +985,9 @@ class insering_allDB {
       lvtcod,
       cmpidd,
       company,
-      defaultvalue}) async {
+      defaultvalue,
+        levdsc
+      }) async {
     Map<String, dynamic> row = {
 //      DatabaseHelper.columnName : 'Bob',
 //      DatabaseHelper.columnAge  : 23,
@@ -1000,6 +1002,9 @@ class insering_allDB {
       EmpAbsenceAssignments.cmpidd: cmpidd,
       EmpAbsenceAssignments.Company: company,
       EmpAbsenceAssignments.defaultvalue: defaultvalue,
+      EmpAbsenceAssignments.levdsc: levdsc,
+
+
     };
     final id = await empAbsenceAssignments.insert(row);
   }
@@ -1135,7 +1140,11 @@ class insering_allDB {
       emplevidd,
       lvcidd,
       defaultvalue,
-      lvtidd}) async {
+      lvtidd,
+      empidd,
+      empcod,
+        levdsc
+      }) async {
     Map<String, dynamic> row = {
 //      DatabaseHelper.columnName : 'Bob',
 //      DatabaseHelper.columnAge  : 23,
@@ -1150,11 +1159,18 @@ class insering_allDB {
       EmployeeAbsenceCodeAssignment.lvcidd: lvcidd,
       EmployeeAbsenceCodeAssignment.defaultvalue: defaultvalue,
       EmployeeAbsenceCodeAssignment.lvtidd: lvtidd,
+
+
+      EmployeeAbsenceCodeAssignment.empidd: empidd,
+      EmployeeAbsenceCodeAssignment.empcod: empcod,
+      EmployeeAbsenceCodeAssignment.levdsc: levdsc,
+
+
     };
     final id = await employeeAbsenceCodeAssignment.insert(row);
   }
 
-  insert_Absence_Transaction(
+    insert_Absence_Transaction(
       {recordIDD,
       entryType,
       transactionNumber,
@@ -1199,7 +1215,13 @@ class insering_allDB {
       mobid,
       syncdate,
       syncstatus,
-      operation}) async {
+      operation,
+        name,
+        leavetypedesc,
+        leavedesc,
+        entrydesc,
+
+      }) async {
     Map<String, dynamic> row = {
 //      DatabaseHelper.columnName : 'Bob',
 //      DatabaseHelper.columnAge  : 23,
@@ -1250,7 +1272,14 @@ class insering_allDB {
       Absence_Transaction.mobid: mobid,
       Absence_Transaction.syncdate: syncdate,
       Absence_Transaction.syncstatus: syncstatus,
-      Absence_Transaction.operation: operation
+      Absence_Transaction.operation: operation,
+
+      Absence_Transaction.name: name,
+      Absence_Transaction.leavetypedesc:leavetypedesc,
+      Absence_Transaction.leavedesc: leavedesc,
+      Absence_Transaction.entrydesc:entrydesc,
+
+
     };
     final id = await absence_Transaction.insert(row);
   }
@@ -1283,7 +1312,10 @@ class insering_allDB {
       mobid,
       syncstatus,
       operation,
-      syncdate}) async {
+      syncdate,
+        ApprovedByUserIDName,
+        MainApproverUserIDName
+      }) async {
     Map<String, dynamic> row = {
 //TODO BACKUP BEFORE API TESTING
 
@@ -1315,6 +1347,10 @@ class insering_allDB {
       Eb_prllevtrx_status.syncstatus: syncstatus,
       Eb_prllevtrx_status.operation: operation,
       Eb_prllevtrx_status.syncdate: syncdate,
+
+      Eb_prllevtrx_status.MainApproverUserIDName: MainApproverUserIDName,
+      Eb_prllevtrx_status.ApprovedByUserIDName : ApprovedByUserIDName,
+
     };
     final id = await eb_prllevtrx_status.insert(row);
   }

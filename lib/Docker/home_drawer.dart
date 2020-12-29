@@ -174,7 +174,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
 
       mp['name'] = map[EmpMaster.empprn]??'Name not found';
-      mp['id'] = map[EmpMaster.poscod].toString()??'id not found';
+      mp['position'] = map[EmpMaster.poscod].toString()??'id not found';
+      mp['dept'] = map[EmpMaster.dptcod].toString()??'id not found';
+      mp['email'] = map[EmpMaster.addpre].toString()??'id not found';
+
+      mp['email'].toString().compareTo('')==0?mp['email'] = 'Email not available':1;
 
       return mp;
     }
@@ -182,19 +186,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
     return Material(
       color: th.bk,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             width: double.infinity,
-            color: Hexcolor('#256CD0'),
+            color: HexColor('#2F3840'),
             child: Stack(
               children: <Widget>[
                 Image.asset(
-                  'assets/topheaderblue.png',
+                  'assets/ui/topgrey.png',
                   fit: BoxFit.fill,
                   width: MediaQuery.of(context).size.width * 0.90,
-                  height: 150,
+                  height: 150.0,
                 ),
                 FutureBuilder(
                     future: getuserdata(),
@@ -202,9 +206,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       if (snapshot.hasData)
                         return Positioned(
                             top: 40,
-                            left: 10,
+
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
+                                Container(
+                                  width:10,
+                                ),
+
                                 if (snapshot.data['pic'] != null)
                                   CircleAvatar(
 //                           backgroundImage:MemoryImage(snapshot.data['pic']
@@ -220,10 +229,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                     radius: 50,
                                   ),
                                 Container(
-                                  width: 10,
+                                  width: MediaQuery.of(context).size.width/4,
                                 ),
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Text(
                                       snapshot.data['name'],
@@ -234,13 +244,31 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                       ),
                                     ),
                                     Text(
-                                      snapshot.data['id'],
+                                      snapshot.data['email'],
                                       style: TextStyle(
                                         fontWeight: FontWeight.w200,
                                         color: AppTheme.white,
                                         fontSize: 16,
                                       ),
                                     ),
+
+                                    Text(
+                                      snapshot.data['position'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w200,
+                                        color: AppTheme.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.data['dept'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w200,
+                                        color: AppTheme.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+
                                   ],
                                 ),
                               ],

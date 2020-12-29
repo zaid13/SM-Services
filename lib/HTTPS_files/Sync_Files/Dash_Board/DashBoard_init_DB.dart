@@ -18,8 +18,8 @@ iningetmenu() async {
   Response r = await get(GetMenu  ,
       headers: <String, String>{'authorization': basicAuth});
   final json=JSON.jsonDecode(r.body);
-print(GetMenu);
-  print(r);
+
+
 
 
   if(r.statusCode==200  && json.length>0){
