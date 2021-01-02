@@ -44,7 +44,7 @@ class _Absence_Request_FormState extends State<Absence_Request_Form> {
   Widget build(BuildContext context) {
 return SafeArea(
   child:   Scaffold(
-
+      resizeToAvoidBottomInset: false,
     backgroundColor: widget.th.bk,
 
     body: Container(

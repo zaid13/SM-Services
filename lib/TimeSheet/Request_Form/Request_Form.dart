@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
+import 'package:flutter_document_picker/flutter_document_picker.dart';
 
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
@@ -524,43 +525,54 @@ class _RequestFormState extends State<RequestForm> {
 
   TextEditingController date_controller1 = TextEditingController();
   Widget bottomBar() {
-return    Container(
-  height: MediaQuery.of(context).size.height * 0.12,
-  child:   BottomBarView(
+return    BottomBarView(
 
-        tabIconsList: tabIconsList,
+  tabIconsList: tabIconsList,
 
-        addClick: () {
+  addClick: () {
 
-  //            RESET_SCREEN();
+    //            RESET_SCREEN();
 
-        },
+  },
 
-        changeIndex: (int index) async {
+  changeIndex: (int index) async {
 
 
 
-          if (index == 0) {
+    if (index == 0) {
 
-            SaveForm();
+      SaveForm();
 
-          }
+    }
 
 
 
-          if (index == 1) {
+    if (index == 1) {
 
-            await submitForm();
+      await submitForm();
 
-          }
+    }
 
-          if (index == 2) {}
+    if (index == 2) {
 
-          if (index == 3) {}
 
-        },
 
-      ),
+        final path = await FlutterDocumentPicker.openDocument();
+
+        FlutterDocumentPickerParams params = FlutterDocumentPickerParams(
+          allowedFileExtensions: ['mwfbak'],
+          allowedUtiTypes: ['com.sidlatau.example.mwfbak'],
+          allowedMimeTypes: ['application/*'],
+          invalidFileNameSymbols: ['/'],
+        );
+
+      }
+
+
+    if (index == 3) {}
+
+  },
+
 );
   }
 
@@ -653,7 +665,7 @@ return    Container(
               TopBar(th, Screen_type.Time_Sheet),
               Positioned(
                 right: 10,
-                top: 30,
+                top: 10,
                 child: Row(
                   children: <Widget>[
                     IconButton(
@@ -853,10 +865,7 @@ return    Container(
                   );
                 }),
           ),
-          Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              alignment: Alignment.bottomCenter,
-              child: bottomBar()),
+          bottomBar(),
         ],
       ),
     );

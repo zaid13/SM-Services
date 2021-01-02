@@ -3,14 +3,18 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
+// import 'package:filesystem_picker/filesystem_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 // import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_document_picker/flutter_document_picker.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_popup/mobile_popup.dart';
 import 'package:mobile_popup/pop_up.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sm_service/AppScreens/Listview/ListView.dart';
 import 'package:sm_service/AppScreens/Searchable_List/seacrhableListview.dart';
@@ -676,8 +680,8 @@ class _Absence_BodyState extends State<Absence_Body> {
                 Expanded(
                     child: Theme(
                   data: new ThemeData(
-                    primaryColor: Colors.redAccent,
-                    primaryColorDark: Colors.red,
+                    // primaryColor: Colors.redAccent,
+                    // primaryColorDark: Colors.red,
                   ),
                   child: new TextField(
                     style: TextStyle(color: widget.th.pr),
@@ -718,6 +722,7 @@ class _Absence_BodyState extends State<Absence_Body> {
 
             tabIconsList: tabIconsList,
             addClick: () {
+              print('dedede');
 //            RESET_SCREEN();
             },
             changeIndex: (int index) async {
@@ -916,11 +921,23 @@ class _Absence_BodyState extends State<Absence_Body> {
                   }
                 }
                 if (index == 2) {
+print('dsds');
                   if (widget.screentype == Screen_type.Pending_Request) {
 
                     return Revise_pending_request();
 
-                  } else {
+                  } else if(widget.screentype == Screen_type.Absence_Request){
+                    print('rere');
+                    final path = await FlutterDocumentPicker.openDocument();
+
+              FlutterDocumentPickerParams params = FlutterDocumentPickerParams(
+              allowedFileExtensions: ['mwfbak'],
+              allowedUtiTypes: ['com.sidlatau.example.mwfbak'],
+              allowedMimeTypes: ['application/*'],
+              invalidFileNameSymbols: ['/'],
+              );
+
+                  }else {
                     print("attach");
                     // final filepvier = FilePicker. platform();
                     // List<File> files = await FilePicker.getMultiFile();
@@ -2110,8 +2127,8 @@ class _Absence_BodyState extends State<Absence_Body> {
               Expanded(
                   child: Theme(
                     data: new ThemeData(
-                      primaryColor: Colors.redAccent,
-                      primaryColorDark: Colors.red,
+                      // primaryColor: Colors.redAccent,
+                      // primaryColorDark: Colors.red,
                     ),
                     child: new TextField(
                       style: TextStyle(color: widget.th.pr),

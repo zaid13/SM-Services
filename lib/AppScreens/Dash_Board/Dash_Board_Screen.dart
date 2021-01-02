@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
   import 'package:hexcolor/hexcolor.dart';
   import 'package:intl/intl.dart';
   import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:sm_service/AppScreens/Form_Screen/TopBar.dart';
   import 'package:sm_service/App_Initialization/App_classes/Tab_Icons.dart';
   import 'package:sm_service/App_Initialization/App_vatiables.dart';
 
@@ -534,7 +535,9 @@ class DashBoardState extends State<DashBoard>
           backgroundColor: Colors.transparent,
           body: Column(
             children: <Widget>[
-              getAppBarUI(),
+              // getAppBarUI(),
+              //
+              TopBar(th, Screen_type.DashBoard),
               Expanded(child: getMainListViewUI()),
 
 

@@ -187,7 +187,7 @@ th = widget.thw;
     color: AppTheme.nearlyWhite,
       child: Scaffold(
 
-
+        resizeToAvoidBottomInset: false,
       body:StatefulBuilder(builder:(context, setState) {
         setState((){
           th = th;

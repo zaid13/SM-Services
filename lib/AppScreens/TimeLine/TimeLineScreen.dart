@@ -6,8 +6,10 @@ import 'package:flutter_showcase/flutter_showcase.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:sm_service/AppScreens/Form_Screen/TopBar.dart';
 import 'package:sm_service/App_Initialization/App_classes/Theme.dart';
 import 'package:sm_service/App_Initialization/App_theme/App_theme.dart';
+import 'package:sm_service/App_Initialization/App_vatiables.dart';
 import 'package:sm_service/DataStructures/DropDowns/DropDown_1.dart';
 import 'package:sm_service/Database_Files/Local_DB/Absence_Transaction.dart';
 import 'package:sm_service/Database_Files/Local_DB/Time_sheet/SaveFiles/eb_prlattenttrx_Status.dart';
@@ -31,58 +33,16 @@ class _Absence_TimelineState extends State<Absence_Timeline> {
       child: Scaffold(
         body: Column(
           children: <Widget>[
-            getAppBarUI(),
+            TopBar(th, Screen_type.Timeline),
             Expanded(
-              child: Showcase(
-                title: 'Absence Request Status',
+  child: _WeatherTimelineApp(widget.mobid)
+/*              child: Showcase(
+
+
                 app: _WeatherTimelineApp(widget.mobid),
-                description:
-                    'Keep it up with the weather with this shining timeline.',
-                template: SimpleTemplate(reverse: false),
-                theme: TemplateThemeData(
-                  frameTheme: FrameThemeData(
-                    statusBarBrightness: Brightness.dark,
-                    frameColor: Colors.black.withOpacity(0.7),
-                  ),
-                  flutterLogoColor: FlutterLogoColor.black,
-                  brightness: Brightness.dark,
-                  backgroundColor: const Color(0xFFDB84B1),
-                  titleTextStyle: GoogleFonts.lato(
-                    fontSize: 60,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black.withOpacity(0.7),
-                  ),
-                  descriptionTextStyle: GoogleFonts.lato(
-                    fontSize: 24,
-                    height: 1.2,
-                    color: Colors.black.withOpacity(0.7),
-                  ),
-                  buttonTextStyle: TextStyle(
-                    color: Colors.black.withOpacity(0.7),
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2,
-                  ),
-                  buttonIconTheme: const IconThemeData(color: Colors.black),
-                  buttonTheme: ButtonThemeData(
-                    buttonColor: const Color(0xFF9E3773),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                  ),
-                ),
-                links: [
-                  LinkData.github(
-                      'https://github.com/JHBitencourt/timeline_tile'),
-                ],
-                logoLink: LinkData(
-                  icon: Image.asset(
-                    'assets/built_by_jhb_black.png',
-                    fit: BoxFit.fitHeight,
-                  ),
-                  url: 'https://github.com/JHBitencourt',
-                ),
-              ),
+
+
+              )*/,
             ),
           ],
         ),
@@ -170,8 +130,7 @@ class _WeatherTimelineApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Weather TimelineTile',
-      builder: Frame.builder,
+
       home: _WeatherTimeline(mobid),
     );
   }
@@ -183,6 +142,8 @@ class _WeatherTimeline extends StatelessWidget {
   List<Widget> Widlist = [];
 
   loadList() async {
+
+
     Widlist.add(TimelineTile(
       alignment: TimelineAlign.manual,
       lineX: 0.3,
@@ -323,6 +284,8 @@ class _WeatherTimeline extends StatelessWidget {
     });
 
 
+if(Widlist.length == 1){return null;}
+
 
     return Widlist;
   }
@@ -355,11 +318,18 @@ class _WeatherTimeline extends StatelessWidget {
             body: FutureBuilder(
                 future: loadList(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData)
+                  if(snapshot.data== null){return Center(child: Text ('Sorry no data to display'));}
+
+
+                  if (snapshot.hasData){
+
                     return ListView.builder(
                       itemCount: Widlist.length,
                       itemBuilder: (context, index) => Widlist[index],
                     );
+
+
+                  }
                   else {
                     return ModalProgressHUD(
                       child: Container(),

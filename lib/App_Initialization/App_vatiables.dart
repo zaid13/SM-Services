@@ -56,7 +56,11 @@ Absence_Request,
 Saved_Request,
 Pending_Request,
 Submitted_Request,
+
+
   About,
+  DashBoard,
+  Timeline,
 
 
   Time_Sheet,
