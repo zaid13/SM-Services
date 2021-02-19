@@ -207,71 +207,76 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         return Positioned(
                             top: 40,
 
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Container(
-                                  width:10,
-                                ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.87,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
 
-                                if (snapshot.data['pic'] != null)
-                                  CircleAvatar(
+
+                                  if (snapshot.data['pic'] != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: CircleAvatar(
 //                           backgroundImage:MemoryImage(snapshot.data['pic']
 
-                                    backgroundImage: AssetImage(
-                                        'assets/images/userImage.png'),
-                                    radius: 50,
-                                  )
-                                else
-                                  CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        'assets/images/userImage.png'),
-                                    radius: 50,
+                                        backgroundImage: AssetImage(
+                                            'assets/images/userImage.png'),
+                                        radius: 50,
+                                      ),
+                                    )
+                                  else
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                            'assets/images/userImage.png'),
+                                        radius: 50,
+                                      ),
+                                    ),
+
+                                  Column(
+
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text(
+                                        snapshot.data['name'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: AppTheme.white,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data['email'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          color: AppTheme.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+
+                                      Text(
+                                        snapshot.data['position'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          color: AppTheme.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data['dept'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          color: AppTheme.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+
+                                    ],
                                   ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width/4,
-                                ),
-                                Column(
-
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                      snapshot.data['name'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: AppTheme.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Text(
-                                      snapshot.data['email'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w200,
-                                        color: AppTheme.white,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-
-                                    Text(
-                                      snapshot.data['position'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w200,
-                                        color: AppTheme.white,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Text(
-                                      snapshot.data['dept'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w200,
-                                        color: AppTheme.white,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ));
                       else {
                         return Container();
